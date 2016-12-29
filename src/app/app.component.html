@@ -17,14 +17,14 @@
           <a href="" id ="LoginPoupOpen" data-open="login">Login</a>
         </li>
       </ul>
-      <ul class="dropdown menu" data-dropdown-menu id="ShowUserName">
+   <!--   <ul class="dropdown menu" data-dropdown-menu id="ShowUserName">
         <li>
           <label ng-model="userName" id="setUserName">{{userName}}</label>
         </li>
         <li>
           <a href="javascript:void(0);" ng-click="logout()">LogOut</a>
         </li>
-      </ul>
+      </ul>-->
     </div>
   </div>
 </header>
@@ -278,7 +278,7 @@
 </div>
 <a data-toggle="err-info" id="Werror"><strong>eroor</strong></a>
 <!-- End -->
-<h1>
-  content here
+
+<router-outlet>
   <!-- End Message -->
-</h1>
+</router-outlet>

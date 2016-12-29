@@ -1,0 +1,25 @@
+<title>Home | Merx</title>
+<div class="pos-abs width-full align-v-center">
+  <div class="row">
+    <div class="small-12 small-centered medium-10 large-7 column">
+      <div class="input-group">
+        <input class="input-group-field border-none" id="addproducttext" placeholder="Product Link or Name" type="text">
+        <div class="input-group-button">
+          <a href="#/a/product" id="AddProduct" class="button secondary">Add product</a>
+          <!--<button onclick="location.href='./add-prod-details.html'" class="button secondary">Add product</button>-->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+  setTimeout(function(){
+    $(document).foundation();
+    $('body').on('click','#AddProduct',function(){
+      var TextVal=$('#addproducttext').val();
+      localStorage.setItem("TextVal",TextVal);
+    });
+  },500);
+</script>
