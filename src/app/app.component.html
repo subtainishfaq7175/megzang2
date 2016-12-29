@@ -1,3 +1,284 @@
+<header data-sticky-container>
+  <div class="top-bar sticky is-stuck is-at-top" data-sticky="7ex7m1-sticky" data-options="marginTop:0;" style="width: 100%; margin-top: 0em; top: 0px; bottom: auto; left: 0px;" data-resize="ydhrvr-sticky">
+    <div class="top-bar-left">
+      <ul class="dropdown menu" data-dropdown-menu>
+        <li class="menu-text">Pages</li>
+        <li>
+          <a href="#">Shopping list</a>
+        </li>
+      </ul>
+    </div>
+    <div class="top-bar-right">
+      <ul class="dropdown menu" data-dropdown-menu id="showLogin">
+        <li>
+          <a href="" data-toggle="signup">Sign up</a>
+        </li>
+        <li>
+          <a href="" id ="LoginPoupOpen" data-open="login">Login</a>
+        </li>
+      </ul>
+      <ul class="dropdown menu" data-dropdown-menu id="ShowUserName">
+        <li>
+          <label ng-model="userName" id="setUserName">{{userName}}</label>
+        </li>
+        <li>
+          <a href="javascript:void(0);" ng-click="logout()">LogOut</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</header>
+<!-- login modal -->
+<div class="reveal" id="login" data-reveal data-animation-in="my-hinge-in-from-top" data-animation-out="fade-out">
+  <button class="close-button" data-close aria-label="Close modal" type="button" id="loginClose">
+    <span aria-hidden="true" class="font-white">&times;</span>
+  </button>
+  <div class="space"></div>
+
+  <div class="row">
+    <div class="small-11 small-centered column bg-white radius-global shadow-elv-top">
+      <div class="l-space"></div>
+
+      <h1 class="text-center">Login</h1>
+      <p class="lead text-center">We missed you</p>
+
+      <form ng-controller="HomeController" ng-submit="login()">
+        <div class="error-msg text-center" ng-if="loginError">
+          {{loginErrorText}}
+          <div class="xl-space"></div>
+        </div>
+        <div class="row">
+          <div class="small-11 medium-9 small-centered column">
+
+            <div class="pos-rel login-field">
+              <label>Email</label>
+              <input type="email" placeholder="E-mail" ng-model="email" name="email" required/>
+              <div class="error-msg" ng-show="login_form.email.$touched || login_form.email.$submitted">
+                <span class="error" ng-show="login_form.email.$error.required">Email is required.</span>
+                <span class="error" ng-show="login_form.email.$error.email">This is not a valid email.</span>
+              </div>
+            </div>
+
+            <div class="space"></div>
+
+            <div class="pos-rel login-field">
+              <label>Password</label>
+              <input type="password" placeholder="Password" ng-model="password" name="password" required/>
+              <div class="error-msg" ng-show="login_form.password.$touched || login_form.password.$submitted">
+                <span class="error" ng-show="login_form.password.$error.required">Password is required.</span>
+              </div>
+            </div>
+            <div class="space"></div>
+
+            <div class="text-center">
+              <button class="button" type="submit">Login</button>
+              <div class="space"></div>
+              <a data-toggle="password" id="ForgotPass">Forgot your password?</a>
+              <div class="xs-space"></div>
+              No account? <a data-toggle="signup" id="signupLogin">Sign up</a>
+            </div>
+          </div>
+        </div>
+      </form>
+      <div class="l-space"></div>
+    </div>
+  </div>
+</div>
+<!-- END login modal -->
+
+<!-- sign up modal -->
+<div class="reveal" id="signup" data-reveal data-animation-in="my-hinge-in-from-top" data-animation-out="fade-out">
+  <button class="close-button" data-close aria-label="Close modal" type="button" id="SignupClose">
+    <span aria-hidden="true" class="font-white">&times;</span>
+  </button>
+  <div class="space"></div>
+
+  <div class="row">
+    <div class="small-11 small-centered column bg-white radius-global shadow-elv-top">
+      <div class="l-space"></div>
+
+      <h1 class="text-center opac-xxl">Join us</h1>
+      <p class="lead text-center opac-xxl">You know you want to</p>
+
+      <form>
+        <div class="row">
+          <div class="small-11 medium-9 small-centered column">
+            <div class="error-msg text-center" >
+              {{registerErrorText}}
+              <div class="xl-space"></div>
+            </div>
+            <div class="pos-rel login-field">
+              <label>Name</label>
+              <input type="text" placeholder="Name" class="pos-rel e2" ng-model="newUser.name" required/>
+            </div>
+
+            <div class="space"></div>
+            <div class="pos-rel login-field">
+              <label>Email</label>
+              <input type="email" placeholder="E-mail" class="pos-rel e2" ng-model="newUser.email" required/>
+            </div>
+
+            <div class="space"></div>
+
+            <div class="pos-rel login-field">
+              <label>Password</label>
+              <input type="password" placeholder="Password" class="pos-rel e2" ng-model="newUser.password" required/>
+            </div>
+            <div class="space"></div>
+            <div class="text-center">
+              <button class="button" ng-click="register()">Register</button>
+              <!--<a class="button" data-toggle="success">Create account</a>       -->
+              <div class="space"></div>
+              Already have an account? <a data-toggle="login" id="loginLogin">Login</a>
+            </div>
+          </div>
+        </div>
+      </form>
+
+      <div class="l-space"></div>
+    </div>
+  </div>
+</div>
+<!-- END sign up modal -->
+
+<!-- signup success modal -->
+<div class="reveal" id="success" data-reveal data-close-on-click="true" data-animation-in="fade-in" data-animation-out="fade-out">
+  <button class="close-button" data-close aria-label="Close modal" type="button" id="SignupClose">
+    <span aria-hidden="true" class="font-white">&times;</span>
+  </button>
+  <div class="space"></div>
+
+  <div class="row">
+    <div class="small-11 small-centered column bg-success radius-global shadow-elv-top">
+      <div class="l-space"></div>
+
+      <h2 class="font-white text-center">
+        <i class="material-icons md-48 font-black opac-m">check</i>
+        <span class="block">Welcome!</span>
+      </h2>
+      <p class="text-center font-white lead">We're so thrilled to have you here</p>
+      <p class="text-center opac-xl">Check your email and click on the confirmation link, to make it official</p>
+
+      <div class="l-space"></div>
+    </div>
+  </div>
+</div>
+
+<!-- password recovery modal -->
+<div class="reveal" id="password" data-reveal data-animation-in="my-hinge-in-from-top" data-animation-out="fade-out">
+  <button class="close-button" data-close aria-label="Close modal" type="button" id="LoastPaswordClose">
+    <span aria-hidden="true" class="font-white">&times;</span>
+  </button>
+  <div class="space"></div>
+
+  <div class="row">
+    <div class="small-11 small-centered column bg-white radius-global shadow-elv-top">
+      <div class="l-space"></div>
+
+      <h2 class="text-center">Lost password?</h2>
+      <p class="lead text-center">Not to worry! We have your back</p>
+      <p class="text-center">Submit your email and we'll send you a fresh pass</p>
+
+      <form ng-controller="HomeController" ng-submit="forgotPassword()" novalidate>
+        <div class="row">
+          <div class="error-msg text-center font-white" ng-if="forgotMsg">
+            {{forgotMsgText}}
+            <div class="xl-space"></div>
+          </div>
+          <div class="small-11 medium-9 small-centered column">
+            <label>Email</label>
+            <input type="email" ng-required="true" name="forgotEmail" placeholder="Provide email to reset your password" class="pos-rel e2" ng-model="newUser.email" />
+            <div class="error-msg font-white" ng-show="forgot_pass_form.forgotEmail.$touched || forgot_pass_form.forgotEmail.$submitted">
+              <span class="error" ng-show="forgot_pass_form.forgotEmail.$error.required">This field is required.</span>
+              <span class="error" ng-show="forgot_pass_form.forgotEmail.$error.email">This is not a valid email.</span>
+            </div>
+            <div class="space"></div>
+
+            <div class="text-center">
+              <button class="button" type="submit">Submit</button>
+              <!--<a class="button" type="submit">Reset password</a>-->
+            </div>
+          </div>
+        </div>
+      </form>
+      <div class="l-space"></div>
+    </div>
+  </div>
+</div>
+<!-- END password recovery modal -->
+
+<!-- lostpass success modal -->
+<a data-toggle="pass-success" id="ForgotSuccess">Login</a>
+<div class="reveal" id="pass-success" data-reveal data-close-on-click="true" data-animation-in="fade-in" data-animation-out="fade-out">
+  <button class="close-button" data-close aria-label="Close modal" type="button">
+    <span aria-hidden="true" class="font-white">&times;</span>
+  </button>
+  <div class="space"></div>
+
+  <div class="row">
+    <div class="small-11 small-centered column bg-success radius-global shadow-elv-top">
+      <div class="l-space"></div>
+
+      <h2 class="font-white text-center">
+        <i class="material-icons md-48 font-black opac-m">check</i>
+        <span class="block">Done!</span>
+      </h2>
+      <p class="text-center font-white lead">We sent you an email to reset your password</p>
+      <p class="text-center opac-xl">Check your email and click on the link to reset it.</p>
+
+      <div class="l-space"></div>
+    </div>
+  </div>
+</div>
+<!-- END lostpass signup success modal -->
+
+
+<!--  View Message-->
+<a  id="successTogalmsg" data-toggle="successTogal"></a>
+<div class="reveal" id="successTogal" data-reveal data-close-on-click="true" data-animation-in="fade-in" data-animation-out="fade-out">
+  <button class="close-button" data-close aria-label="Close modal" id="closeMesg" type="button">
+    <span aria-hidden="true" class="font-white">&times;</span>
+  </button>
+  <div class="space"></div>
+
+  <div class="row">
+    <div class="small-11 small-centered column bg-success radius-global shadow-elv-top">
+      <div class="l-space"></div>
+
+      <h2 class="font-white text-center">
+        <i class="material-icons md-48 font-black opac-m">check</i>
+        <span class="block">Success!</span>
+      </h2>
+      <p class="text-center font-white lead" id="SetMsg"></p>
+      <div class="l-space"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Errro -->
+<div class="reveal" id="err-info" data-reveal data-close-on-click="true" data-animation-in="fade-in" data-animation-out="fade-out">
+  <button class="close-button" data-close aria-label="Close modal" id="closeErromsg" type="button">
+    <span aria-hidden="true" class="font-white">&times;</span>
+  </button>
+  <div class="space"></div>
+
+  <div class="row">
+    <div class="small-11 small-centered column radius-global shadow-elv-top" style="background: #e45151;">
+      <div class="l-space"></div>
+
+      <h2 class="font-white text-center">
+        <i class="material-icons md-48 font-black opac-m">sentiment_very_dissatisfied</i>
+        <span class="block">Hold on there tiger!</span>
+      </h2>
+      <p class="text-center font-white lead">We first need all the info so you can make the wish</p>
+      <p class="text-center opac-xl" id="Wishnoerror">Looks like your &nbsp;<span id="Wisherror"></span>&nbsp;is missing</p>
+      <div class="l-space"></div>
+    </div>
+  </div>
+</div>
+<a data-toggle="err-info" id="Werror"><strong>eroor</strong></a>
+<!-- End -->
 <h1>
-  {{title}}
+  content here
+  <!-- End Message -->
 </h1>
