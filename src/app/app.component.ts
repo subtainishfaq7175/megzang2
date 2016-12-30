@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {LocalStorageService} from "ng2-webstorage";
+import {User} from "./model/user";
 
 @Component({
   selector: 'app-root',
@@ -16,7 +17,7 @@ export class AppComponent implements OnInit {
   currentSelectedBranch=0;
   email:String='';
   password:String='';
-  //$scope.newUser={}; will create a typescript class for this
+  newUser:User; //will create a typescript class for this
   loginError : boolean=false;
   ShowUserName : boolean=false;
   showLogin : boolean=false;
@@ -72,11 +73,11 @@ constructor (private localStorage:LocalStorageService)
 };
   init(){
     console.log("hello");
-     var user = false//angular.fromJson(localStorage.getItem('user'));
+     var user:User = this.localStorage.retrieve('user');
      if(user){
      this.ShowUserName=true;
      this.showLogin=false;
-     this.userName="";//user.name;
+     this.userName=user.name;//user.name;
      }else{
      //$state.go('a.dashboard');
      this.ShowUserName=false;
