@@ -1,37 +1,40 @@
 import { Injectable } from '@angular/core';
-import {Http, Response} from "@angular/http";
+import {Http, Response, Headers, RequestOptions} from "@angular/http";
 import {LocalStorageService} from "ng2-webstorage";
 import {User} from "../model/user";
-import {Observable} from "rxjs";
+import   "rxjs/Rx";
+import {API_URL} from "../app.config";
 
 @Injectable()
 export class AuthenticationService {
   public token:string;
 
-  constructor(private http: Http,private localStorage:LocalStorageService) {
-    // set token if saved in local storage
-    var currentUser:User = JSON.parse(localStorage.retrieve('user'));
-    this.token =  currentUser.token;
+  constructor(private http: Http,private localStorage:LocalStorageService) {  }
+
+
+  login(userCredentials:User){
+
+    const body= JSON.stringify(userCredentials);
+/*    let headers = new Headers({ 'Content-Type': 'application/json'});
+    let options = new RequestOptions({ headers: headers });*/
+    return this.http.post(API_URL+"api/authenticate/",body)
+      .map((data:Response)=>data.json());
+
+
   }
 
+  logout(){
 
-  login(username: string, password: string){
+  }
 
+  register(userCredentials:User){
 
-    /* return this.http.post('/api/authenticate', JSON.stringify({ username: username, password: password }))
-      .map((response: Response) => {
-        var newUser:User = response.json() && response.json().token;
-        if (token) {
-          this.token = token;
+    const body= JSON.stringify(userCredentials);
+    let headers = new Headers({ 'Content-Type': 'application/json'});
+    let options = new RequestOptions({ headers: headers });
+    return this.http.post(API_URL+"api/register",body,options)
+      .map((data:Response)=>data.json());
 
-          this.localStorage.store('user', JSON.stringify({ username: username, token: token }));
-
-          return true;
-        } else {
-          // return false to indicate failed login
-          return false;
-        }
-      });*/
   }
 
 }

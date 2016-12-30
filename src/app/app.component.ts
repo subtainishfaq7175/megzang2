@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {LocalStorageService} from "ng2-webstorage";
 import {User} from "./model/user";
+import {AuthenticationService} from "./services/authentication.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-root',
@@ -11,22 +13,24 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.init();
     this.saveValue();
+    this.login();
   }
 
-  userName:String='';
+  userName:string='';
   currentSelectedBranch=0;
-  email:String='';
-  password:String='';
+  email:string='';
+  password:string='';
   newUser:User; //will create a typescript class for this
   loginError : boolean=false;
   ShowUserName : boolean=false;
   showLogin : boolean=false;
-  loginErrorText : String ='';
+  loginErrorText : string ='';
   forgotError :boolean=false;
-  forgotErrorText : String='';
+  forgotErrorText : string='';
 
 
-constructor (private localStorage:LocalStorageService)
+
+constructor (private localStorage:LocalStorageService,private authService:AuthenticationService,private router:Router)
 {
 
 
@@ -86,20 +90,33 @@ constructor (private localStorage:LocalStorageService)
   };
   logout () {
     console.log("logout");
-   /* $auth.logout().then(function(data) {
-      localStorage.removeItem('user');
-      $rootScope.authenticated = false;
-      $rootScope.currentUser = null;
-      var url=location.href;
-      if(url.indexOf('dashboard') > 0){
-        window.location.reload();
-      }else{
-        $state.go('a.dashboard');
-      }
-    });*/
+    this.localStorage.clear("user");
+    this.localStorage.store("authenticated",false);//userootscop for these
+    this.localStorage.clear("currentUser");//use rootscope for these
+    this.router.navigateByUrl('/dashboard');
   };
   login () {
-    console.log("login");
+
+    var testUser:User=new User(this.email,this.password);
+
+    this.authService.login(testUser).subscribe(data => {
+
+       this.localStorage.store('user', testUser);
+        this.localStorage.store("authenticated","true");
+        this.localStorage.store("currentUser",testUser);
+        this.loginError = false;
+        this.loginErrorText = '';
+
+
+      },
+    error => {
+
+/*
+      setup error , test error
+      this.loginError = true;
+      this.loginErrorText = error.json();*/
+    }
+    );
 /*
   /!*  var credentials = {
    email: $scope.email,
@@ -141,19 +158,22 @@ constructor (private localStorage:LocalStorageService)
   });*/
 }
   register() {
-    console.log("register");
-  /*$http.post('/api/register',$scope.newUser)
-    .success(function(){
-      $scope.email=$scope.newUser.email;
-      $scope.password=$scope.newUser.password;
-      $scope.name=$scope.newUser.name;
-      $scope.login();
 
-    })
-    .error(function(data){
-      $scope.loginError = true;
-      $scope.registerErrorText = data.message;
-    });*/
+
+    this.authService.register(this.newUser).subscribe(data =>
+      {
+        $scope.email=this.newUser.email;
+        $scope.password=this.newUser.password;
+        $scope.name=$scope.newUser.name;
+        $scope.login();
+      },
+        error => {
+
+        /*  this.loginError = true;
+          this.registerErrorText = data.message;*/
+        }
+    );
+
 };
 
   showLoginModal(){

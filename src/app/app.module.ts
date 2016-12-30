@@ -10,6 +10,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { ProductComponent } from './product/product.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import {Ng2Webstorage} from "ng2-webstorage";
+import {AuthenticationService} from "./services/authentication.service";
 
 @NgModule({
   declarations: [
@@ -24,9 +25,10 @@ import {Ng2Webstorage} from "ng2-webstorage";
     FormsModule,
     HttpModule,
     routing,
-    Ng2Webstorage
+    Ng2Webstorage,
+
   ],
-  providers: [],
+  providers: [AuthenticationService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

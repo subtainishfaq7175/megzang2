@@ -15,10 +15,10 @@ export class ApiclientService {
 
   saveProduct()
     {
-      //this.http.
+
     }
   getHtml(username: string, password: string)
     {
-      //this.http.
+
     }
   }
