@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {LocalStorageService} from "ng2-webstorage";
 
 @Component({
   selector: 'app-product',
@@ -7,10 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProductComponent implements OnInit {
 
-  constructor() { }
-
+  constructor(private localStorage:LocalStorageService) {}
   ngOnInit()
   {
+    this. retrieveValue();
   if(this.user)
   {
     this.ShowUserName=true;
@@ -24,6 +25,7 @@ export class ProductComponent implements OnInit {
     this.ShowUserName=false;
     this.showLogin=true;
   }
+
 /*
     if(localStorage.ProductData ==undefined || localStorage.ProductData==''){
       var TextVal=localStorage.getItem("TextVal");
@@ -56,6 +58,9 @@ export class ProductComponent implements OnInit {
         $('#offlineStore').prop('checked',false);
       }
     }*/
+  }
+  retrieveValue() {
+    console.log( this.localStorage.retrieve('stored'));
   }
   loading:boolean=false;
   ShowUserName:boolean=false;
@@ -360,87 +365,90 @@ export class ProductComponent implements OnInit {
   }*/
 }
   GetSetDataForurl(/*data,Prdoucturl*/){
- /* $('#Productprice').val('')
-  $('#ProductName').val('');
-  $('#setBrace').html('0.0 bars');
-  $('#setSrcTag').attr('src','');
-  $('#setSrcTag').css('display','none');
-  setTimeout(function(){
-    var Productname=$(data).filter('title').text();
-    var arr=['Amazon.in','Amazon.com','eBay','flipkart.com','snapdeal',':','|'];
-    var FullName=Productname;
-    if(Productname){
-      for(var i=0;i<arr.length;i++){
-        FullName=FullName.replace(arr[i],'');
-      }
-      if(FullName){
-        $('#ProductName').val($.trim(FullName));
-        $('.loading').hide();
-        Showonlinedata(Prdoucturl);
-        ShowproductDetails();
+    console.log("get Data for url");
 
-        ////Price Tag Find
-        var Pricarr=['#prcIsum','#priceblock_ourprice'];
-        for(var i=0;i <= Pricarr.length;i++){
-          if(Pricarr[i]){
-            if($(data).find(Pricarr[i]).text()){
-              var price=$(data).find(Pricarr[i]).text();
-              break;
-            }
-          }
-        }
-        // End Price
+    /* $('#Productprice').val('')
+     $('#ProductName').val('');
+     $('#setBrace').html('0.0 bars');
+     $('#setSrcTag').attr('src','');
+     $('#setSrcTag').css('display','none');
+     setTimeout(function(){
+       var Productname=$(data).filter('title').text();
+       var arr=['Amazon.in','Amazon.com','eBay','flipkart.com','snapdeal',':','|'];
+       var FullName=Productname;
+       if(Productname){
+         for(var i=0;i<arr.length;i++){
+           FullName=FullName.replace(arr[i],'');
+         }
+         if(FullName){
+           $('#ProductName').val($.trim(FullName));
+           $('.loading').hide();
+           Showonlinedata(Prdoucturl);
+           ShowproductDetails();
 
-        //Img Tag Find
-        var Imgarr=['#landingImage','#icImg'];
-        for(var i=0;i <= Imgarr.length;i++){
-          if(Imgarr[i]){
-            if($(data).find(Imgarr[i]).attr('src')){
-              var img=$(data).find(Imgarr[i]).attr('src');
-              break;
-            }
-          }
-        }
-        if(img){
-          $('#setSrcTag').css('display','block');
-          $('#setSrcTag').attr('src',img);
-        }
-        //End Img
+           ////Price Tag Find
+           var Pricarr=['#prcIsum','#priceblock_ourprice'];
+           for(var i=0;i <= Pricarr.length;i++){
+             if(Pricarr[i]){
+               if($(data).find(Pricarr[i]).text()){
+                 var price=$(data).find(Pricarr[i]).text();
+                 break;
+               }
+             }
+           }
+           // End Price
 
-        // Clean Price
-        var CleanPricearr=['Rs.','US','$'];
-        var ProductPrice=price;
-        for(var i=0;i<CleanPricearr.length;i++){
-          ProductPrice=ProductPrice.replace(CleanPricearr[i],'');
-        }
-        $('#Productprice').val($.trim(ProductPrice));
-        //end
-        if(ProductPrice){
-          if(ProductPrice.indexOf(',') > 0){
-            var priceval = ProductPrice.replace(',','');
-            var braseVal=priceval / 5 ;
-          }else if(ProductPrice.indexOf('.') > 0){
-            var priceval = ProductPrice.replace('$','');
-            var braseVal= priceval / 5 ;
-          }else{
-            var braseVal= ProductPrice / 5 ;
-          }
-        }else{
-          var braseVal=0;
-        }
-        if(braseVal !=''){
-          $('#setBrace').html(braseVal.toFixed(2) +'  bars');
-        }else{
-          $('#setBrace').html('0.0 bars');
-        }
+           //Img Tag Find
+           var Imgarr=['#landingImage','#icImg'];
+           for(var i=0;i <= Imgarr.length;i++){
+             if(Imgarr[i]){
+               if($(data).find(Imgarr[i]).attr('src')){
+                 var img=$(data).find(Imgarr[i]).attr('src');
+                 break;
+               }
+             }
+           }
+           if(img){
+             $('#setSrcTag').css('display','block');
+             $('#setSrcTag').attr('src',img);
+           }
+           //End Img
 
-      }else{
-        $('.loading').hide();
-      }
-    }
-  },1000);*/
+           // Clean Price
+           var CleanPricearr=['Rs.','US','$'];
+           var ProductPrice=price;
+           for(var i=0;i<CleanPricearr.length;i++){
+             ProductPrice=ProductPrice.replace(CleanPricearr[i],'');
+           }
+           $('#Productprice').val($.trim(ProductPrice));
+           //end
+           if(ProductPrice){
+             if(ProductPrice.indexOf(',') > 0){
+               var priceval = ProductPrice.replace(',','');
+               var braseVal=priceval / 5 ;
+             }else if(ProductPrice.indexOf('.') > 0){
+               var priceval = ProductPrice.replace('$','');
+               var braseVal= priceval / 5 ;
+             }else{
+               var braseVal= ProductPrice / 5 ;
+             }
+           }else{
+             var braseVal=0;
+           }
+           if(braseVal !=''){
+             $('#setBrace').html(braseVal.toFixed(2) +'  bars');
+           }else{
+             $('#setBrace').html('0.0 bars');
+           }
+
+         }else{
+           $('.loading').hide();
+         }
+       }
+     },1000);*/
 }
   Showonlinedata(/*valurl*/){
+    console.log("showonLindata");
  /* $('#offlineStore').attr('checked',false);
   $('#onlineStore').attr('checked',true);
   $('#onlineStoreDetails').show();
@@ -449,7 +457,7 @@ export class ProductComponent implements OnInit {
   $('#SetOnlineLink').val(valurl);*/
 }
   resetform(){
-
+    console.log("reset Form")
  /* $('#PackageForm')[0].reset();
   $('#StoreForm')[0].reset();
   $('#ProductForm')[0].reset();
@@ -477,22 +485,27 @@ export class ProductComponent implements OnInit {
 */
 }
   hideproductDetails(){
+    console.log("hide Product details");
   /*$('#Productdetails').hide();
   $('#Packageinfo').hide();
   $('#buttonSvae').hide();*/
 }
   ShowproductDetails(){
- /* $('#Productdetails').show();
-  $('#Packageinfo').show();
-  $('#buttonSvae').show();*/
+    console.log("show productdetails");
+
+    /* $('#Productdetails').show();
+     $('#Packageinfo').show();
+     $('#buttonSvae').show();*/
 }
   productResrt(){
+    console.log("productResrt");
   /*$('#PackageForm')[0].reset();
   $('#ProductForm')[0].reset();
   $('#addOption').html('');
   prodid=1;*/
 }
   validationForm(){
+    console.log("validation Form");
   /*var RetailsName=$('#RetailsName').val();
   if($.trim(RetailsName)==''){
     $('#Retailer_error').html('required')
@@ -501,6 +514,7 @@ export class ProductComponent implements OnInit {
   }*/
 }
   validationForm1(){
+  console.log("validationFor");
   /*var autocomplete=$('#autocomplete').val();
   if($.trim(autocomplete)==''){
     $('#autocomplete_eror').html('required')

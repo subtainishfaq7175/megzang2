@@ -9,6 +9,7 @@ import {routing} from "./app.route";
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ProductComponent } from './product/product.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import {Ng2Webstorage} from "ng2-webstorage";
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
     BrowserModule,
     FormsModule,
     HttpModule,
-    routing
+    routing,
+    Ng2Webstorage
   ],
   providers: [],
   bootstrap: [AppComponent]

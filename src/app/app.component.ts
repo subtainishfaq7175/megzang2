@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {LocalStorageService} from "ng2-webstorage";
 
 @Component({
   selector: 'app-root',
@@ -8,6 +9,7 @@ import {Component, OnInit} from '@angular/core';
 export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.init();
+    this.saveValue();
   }
 
   userName:String='';
@@ -23,13 +25,15 @@ export class AppComponent implements OnInit {
   forgotErrorText : String='';
 
 
-constructor ()
+constructor (private localStorage:LocalStorageService)
 {
 
 
 }
 
-
+  saveValue() {
+    this.localStorage.store('stored', "hello stored");
+  }
 /*
   $scope.newUser.email=$state.params.email;
   $scope.newUser.token=$state.params.token;*/
