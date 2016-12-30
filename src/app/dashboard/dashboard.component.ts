@@ -15,6 +15,10 @@ export class DashboardComponent  {
 
   constructor() { }
 
+  addProduct(){
+    console.log("add Product clicked");
+    //get value of input put it in local storage or somewhere global and move to /product
+  }
 
 
 
