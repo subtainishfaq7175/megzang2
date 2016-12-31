@@ -11,6 +11,7 @@ import { ProductComponent } from './product/product.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import {Ng2Webstorage} from "ng2-webstorage";
 import {AuthenticationService} from "./services/authentication.service";
+import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import {AuthenticationService} from "./services/authentication.service";
     HttpModule,
     routing,
     Ng2Webstorage,
+    NgbModule.forRoot()
 
   ],
   providers: [AuthenticationService],

@@ -1,26 +1,44 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, AfterViewInit, ElementRef} from '@angular/core';
 import {LocalStorageService} from "ng2-webstorage";
 import {User} from "./model/user";
 import {AuthenticationService} from "./services/authentication.service";
 import {Router} from "@angular/router";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+
+declare var $:any;
+/*
+let foundation = require('../../node_modules/foundation-sites/dist/js/foundation.js');
+*/
+
+
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./merx.css']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit ,AfterViewInit{
+
+  ngAfterViewInit(): void {
+/*
+    $(this.el.nativeElement.ownerDocument).foundation();
+*/
+
+    $('body').on('click','#LoginPoupOpen',function(){
+
+      console.log("hihello");
+    });
+
+  }
   ngOnInit(): void {
     this.init();
-    this.saveValue();
-    this.login();
   }
 
   userName:string='';
   currentSelectedBranch=0;
   email:string='';
   password:string='';
-  newUser:User; //will create a typescript class for this
+  newUser:User= new User('','',''); //will create a typescript class for this
   loginError : boolean=false;
   ShowUserName : boolean=false;
   showLogin : boolean=false;
@@ -30,11 +48,17 @@ export class AppComponent implements OnInit {
 
 
 
-constructor (private localStorage:LocalStorageService,private authService:AuthenticationService,private router:Router)
+constructor (private localStorage:LocalStorageService,private authService:AuthenticationService,private router:Router,private el: ElementRef ,private modalService: NgbModal)
 {
 
 
 }
+  open(content) {
+  console.log(content);
+    this.modalService.open(content).result.then((result) => {
+    }, (reason) => {
+    });
+  }
 
   saveValue() {
     this.localStorage.store('stored', "hello stored");
@@ -48,33 +72,33 @@ constructor (private localStorage:LocalStorageService,private authService:Authen
 
 
   forgotPassword () {
- /* $http.post('/api/forgotpassword',$scope.newUser)
-    .success(function(data){
-      if(data.message){
-        $scope.email=$scope.newUser.email;
-        $scope.forgotMsg=true;
-        $scope.forgotMsgText='';
-        if(angular.isArray(data.message)){
-          for(var i=0;i<data.message.length;i++){
-            $scope.forgotMsgText +=data.message+"\n";
-          }
-        }else{
-          $scope.forgotMsgText =data.message;
-        }
-        if(data.status=='success'){
-          $('#ForgotSuccess').trigger('click');
-          setTimeout(function(){
-            $('.reveal').foundation('close')
-          },3000);
+      this.authService.forgetPassword(this.newUser).subscribe(data=> {
 
-        }
-      }
-    })
-    .error(function(data){
-      $scope.forgotMsg=true;
-      $scope.forgotMsgText='Something went wrong';
-    })*/
-};
+        /*if(data.message){
+          $scope.email=$scope.newUser.email;
+          $scope.forgotMsg=true;
+          $scope.forgotMsgText='';
+          if(angular.isArray(data.message)){
+            for(var i=0;i<data.message.length;i++){
+              $scope.forgotMsgText +=data.message+"\n";
+            }
+          }else{
+            $scope.forgotMsgText =data.message;
+          }
+          if(data.status=='success'){
+            $('#ForgotSuccess').trigger('click');
+            setTimeout(function(){
+              $('.reveal').foundation('close')
+            },3000);
+
+          }
+        }*/
+      },
+      error => {/*
+        $scope.forgotMsg=true;
+        $scope.forgotMsgText='Something went wrong';*/}
+      )
+  };
   init(){
     console.log("hello");
      var user:User = this.localStorage.retrieve('user');
@@ -162,10 +186,14 @@ constructor (private localStorage:LocalStorageService,private authService:Authen
 
     this.authService.register(this.newUser).subscribe(data =>
       {
-        $scope.email=this.newUser.email;
-        $scope.password=this.newUser.password;
-        $scope.name=$scope.newUser.name;
-        $scope.login();
+        /*
+         after registering login using same way
+
+         $scope.email=$scope.newUser.email;
+         $scope.password=$scope.newUser.password;
+         $scope.name=$scope.newUser.name;
+         $scope.login();*/
+
       },
         error => {
 

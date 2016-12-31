@@ -37,4 +37,14 @@ export class AuthenticationService {
 
   }
 
+  forgetPassword(userCredentials:User){
+
+    const body= JSON.stringify(userCredentials);
+    let headers = new Headers({ 'Content-Type': 'application/json'});
+    let options = new RequestOptions({ headers: headers });
+    return this.http.post(API_URL+'/api/forgotpassword',body,options)
+      .map((data:Response)=>data.json());
+
+  }
+
 }
