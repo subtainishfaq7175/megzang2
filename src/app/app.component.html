@@ -48,9 +48,9 @@
               <div class="text-center">
                 <button class="button" type="submit">Login</button>
                 <div class="space"></div>
-                <a data-toggle="password" id="ForgotPass">Forgot your password?</a>
+                <a (click)="showModal(passwordT)" id="ForgotPass">Forgot your password?</a>
                 <div class="xs-space"></div>
-                No account? <a data-toggle="signup" id="signupLogin">Sign up</a>
+                No account? <a (click)="showModal(signupmodalT)" id="signupLogin">Sign up</a>
               </div>
             </div>
           </div>
@@ -103,9 +103,8 @@
               <div class="space"></div>
               <div class="text-center">
                 <button class="button" (click)="register()">Register</button>
-                <!--<a class="button" data-toggle="success">Create account</a>       -->
                 <div class="space"></div>
-                Already have an account? <a data-toggle="login" id="loginLogin">Login</a>
+                Already have an account? <a (click)="showModal(loginmodalT)" id="loginLogin">Login</a>
               </div>
             </div>
           </div>
@@ -142,7 +141,7 @@
 </template>
 <template #passwordT id="password" let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <button class="close-button" data-close aria-label="Close modal" type="button" id="LoastPaswordClose" (click)="d('Cross click')">
+    <button class="close-button" id="LoastPaswordClose" (click)="d('Cross click')">
       <span aria-hidden="true" class="font-white">&times;</span>
     </button>
   </div>
@@ -156,10 +155,12 @@
         <p class="lead text-center">Not to worry! We have your back</p>
         <p class="text-center">Submit your email and we'll send you a fresh pass</p>
 
-        <form ng-controller="HomeController" ng-submit="forgotPassword()" novalidate>
+        <form  ng-submit="forgotPassword()" novalidate>
           <div class="row">
             <div class="error-msg text-center font-white" ng-if="forgotMsg">
+<!--
               {{forgotMsgText}}
+-->
               <div class="xl-space"></div>
             </div>
             <div class="small-11 medium-9 small-centered column">
@@ -207,6 +208,53 @@
     </div>
   </div>
 </template>
+<template #successTogalT id="successTogal" let-c="close" let-d="dismiss" >
+  <div class="modal-header">
+    <button class="close-button" data-close aria-label="Close modal" id="closeMesg" type="button" (click)="d('Cross click')">
+      <span aria-hidden="true" class="font-white">&times;</span>
+    </button>
+  </div>
+  <div class="space"></div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="small-11 small-centered column bg-success radius-global shadow-elv-top">
+        <div class="l-space"></div>
+
+        <h2 class="font-white text-center">
+          <i class="material-icons md-48 font-black opac-m">check</i>
+          <span class="block">Success!</span>
+        </h2>
+        <p class="text-center font-white lead" id="SetMsg"></p>
+        <div class="l-space"></div>
+      </div>
+    </div>
+  </div>
+</template>
+<template #errorInfoT  id="err-info"  let-c="close" let-d="dismiss">
+  <div class="modal-header">
+
+    <button class="close-button" data-close aria-label="Close modal" id="closeErromsg" type="button" (click)="d('Cross click')">
+      <span aria-hidden="true" class="font-white">&times;</span>
+    </button>
+  </div>
+  <div class="space"></div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="small-11 small-centered column radius-global shadow-elv-top" style="background: #e45151;">
+        <div class="l-space"></div>
+
+        <h2 class="font-white text-center">
+          <i class="material-icons md-48 font-black opac-m">sentiment_very_dissatisfied</i>
+          <span class="block">Hold on there tiger!</span>
+        </h2>
+        <p class="text-center font-white lead">We first need all the info so you can make the wish</p>
+        <p class="text-center opac-xl" id="Wishnoerror">Looks like your &nbsp;<span id="Wisherror"></span>&nbsp;is missing</p>
+        <div class="l-space"></div>
+      </div>
+    </div>
+  </div>
+</template>
+
 
 
 
@@ -243,72 +291,13 @@
     </div>
   </nav>
 </header>
-<!-- login modal -->
 
-<!-- END login modal -->
+<a  id="ForgotSuccess" (click)="showModal(forgotsuccessT)">Login</a>
+<a  id="successTogalmsg" (click)="showModal(successTogalT)"></a>
+<a  id="Werror" (click)="showModal(errorInfoT)"><strong>eroor</strong></a>
 
-<!-- sign up modal -->
-<!-- END sign up modal -->
-
-<!-- signup success modal -->
-<!-- password recovery modal -->
-<!-- END password recovery modal -->
-
-<!-- lostpass success modal -->
-<a  id="ForgotSuccess">Login</a>
-
-
-<!-- END lostpass signup success modal -->
-
-
-<!--  View Message-->
-<a  id="successTogalmsg" data-toggle="successTogal"></a>
-<div class="reveal" id="successTogal" data-reveal data-close-on-click="true" data-animation-in="fade-in" data-animation-out="fade-out">
-  <button class="close-button" data-close aria-label="Close modal" id="closeMesg" type="button">
-    <span aria-hidden="true" class="font-white">&times;</span>
-  </button>
-  <div class="space"></div>
-
-  <div class="row">
-    <div class="small-11 small-centered column bg-success radius-global shadow-elv-top">
-      <div class="l-space"></div>
-
-      <h2 class="font-white text-center">
-        <i class="material-icons md-48 font-black opac-m">check</i>
-        <span class="block">Success!</span>
-      </h2>
-      <p class="text-center font-white lead" id="SetMsg"></p>
-      <div class="l-space"></div>
-    </div>
-  </div>
-</div>
-
-<!-- Errro -->
-<div class="reveal" id="err-info" data-reveal data-close-on-click="true" data-animation-in="fade-in" data-animation-out="fade-out">
-  <button class="close-button" data-close aria-label="Close modal" id="closeErromsg" type="button">
-    <span aria-hidden="true" class="font-white">&times;</span>
-  </button>
-  <div class="space"></div>
-
-  <div class="row">
-    <div class="small-11 small-centered column radius-global shadow-elv-top" style="background: #e45151;">
-      <div class="l-space"></div>
-
-      <h2 class="font-white text-center">
-        <i class="material-icons md-48 font-black opac-m">sentiment_very_dissatisfied</i>
-        <span class="block">Hold on there tiger!</span>
-      </h2>
-      <p class="text-center font-white lead">We first need all the info so you can make the wish</p>
-      <p class="text-center opac-xl" id="Wishnoerror">Looks like your &nbsp;<span id="Wisherror"></span>&nbsp;is missing</p>
-      <div class="l-space"></div>
-    </div>
-  </div>
-</div>
-<a data-toggle="err-info" id="Werror"><strong>eroor</strong></a>
-<!-- End -->
-<script></script>
 <router-outlet>
-  <!-- End Message -->
 </router-outlet>
+
 <template ngbModalContainer></template>
 

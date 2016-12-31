@@ -3,7 +3,7 @@ import {LocalStorageService} from "ng2-webstorage";
 import {User} from "./model/user";
 import {AuthenticationService} from "./services/authentication.service";
 import {Router} from "@angular/router";
-import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {NgbModal, NgbModalRef} from "@ng-bootstrap/ng-bootstrap";
 
 declare var $:any;
 /*
@@ -21,7 +21,7 @@ export class AppComponent implements OnInit ,AfterViewInit{
 
   ngAfterViewInit(): void {
 
-    $('body').on('click','#signupLogin',function(){
+/*    $('body').on('click','#signupLogin',function(){
       $('#loginClose').trigger('click');
       $('#LoastPaswordClose').trigger('click');
 
@@ -41,7 +41,7 @@ export class AppComponent implements OnInit ,AfterViewInit{
 
     $('body').on('click','#LoginPoupOpen',function(){
 
-    });
+    });*/
 
   }
   ngOnInit(): void {
@@ -59,6 +59,7 @@ export class AppComponent implements OnInit ,AfterViewInit{
   loginErrorText : string ='';
   forgotError :boolean=false;
   forgotErrorText : string='';
+  currentActiveModal:NgbModalRef;
 
 
 
@@ -213,15 +214,20 @@ constructor (private localStorage:LocalStorageService,private authService:Authen
 };
 
   showLoginModal(content){
-    this.modalService.open(content).result.then((result) => {
-    }, (reason) => {
-    });
+    if(this.currentActiveModal)
+    {this.currentActiveModal.dismiss()}
+   this.currentActiveModal= this.modalService.open(content);
   }
 
   showSingupModal(content){
-  this.modalService.open(content).result.then((result) => {
-}, (reason) => {
-});
+    if(this.currentActiveModal)
+    {this.currentActiveModal.dismiss()}
+    this.currentActiveModal=this.modalService.open(content);
+}
+  showModal(content){
+    if(this.currentActiveModal)
+    {this.currentActiveModal.dismiss()}
+    this.currentActiveModal=  this.modalService.open(content);
 }
 
 }
