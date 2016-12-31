@@ -20,13 +20,27 @@ let foundation = require('../../node_modules/foundation-sites/dist/js/foundation
 export class AppComponent implements OnInit ,AfterViewInit{
 
   ngAfterViewInit(): void {
-/*
-    $(this.el.nativeElement.ownerDocument).foundation();
-*/
 
+    $('body').on('click','#signupLogin',function(){
+      $('#loginClose').trigger('click');
+      $('#LoastPaswordClose').trigger('click');
+
+    });
     $('body').on('click','#LoginPoupOpen',function(){
 
       console.log("hihello");
+    });
+    $('body').on('click','#loginLogin',function(){
+      $('#SignupClose').trigger('click');
+      $('#LoastPaswordClose').trigger('click');
+    });
+    $('body').on('click','#ForgotPass',function(){
+      $('#loginClose').trigger('click');
+      $('#SignupClose').trigger('click');
+    });
+
+    $('body').on('click','#LoginPoupOpen',function(){
+
     });
 
   }
@@ -53,12 +67,6 @@ constructor (private localStorage:LocalStorageService,private authService:Authen
 
 
 }
-  open(content) {
-  console.log(content);
-    this.modalService.open(content).result.then((result) => {
-    }, (reason) => {
-    });
-  }
 
   saveValue() {
     this.localStorage.store('stored', "hello stored");
@@ -204,12 +212,16 @@ constructor (private localStorage:LocalStorageService,private authService:Authen
 
 };
 
-  showLoginModal(){
-    console.log("login button on toolbar");
+  showLoginModal(content){
+    this.modalService.open(content).result.then((result) => {
+    }, (reason) => {
+    });
   }
 
-  showSingupModal(){
-    console.log("singup button on toolbar");
-  }
+  showSingupModal(content){
+  this.modalService.open(content).result.then((result) => {
+}, (reason) => {
+});
+}
 
 }
