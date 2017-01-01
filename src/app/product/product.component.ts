@@ -4,6 +4,7 @@ import {Product} from "../model/product";
 import {Store} from "../model/store";
 import {StoreStatus} from "../model/storeStatus";
 import {API_URL} from "../app.config";
+import {Option} from "../model/option";
 
 declare var $:any;
 
@@ -71,9 +72,16 @@ export class ProductComponent implements OnInit, AfterViewInit {
   s6:boolean = true;
   setBraceValue:number=0.0;
   setSrcTagValue:string='images/test/prod.jpg';
+  options:Array<Option>;
+  img_nameValue;
+  Retailer_errorValue;
+  autocomplete_erorValue;
 
 
-@ViewChild('setSrcT') srcTag;
+
+
+  @ViewChild('setSrcT') srcTag;
+
 
 
   ngAfterViewInit(): void {
@@ -81,6 +89,45 @@ export class ProductComponent implements OnInit, AfterViewInit {
     this.Productdetails=false;
     this.Packageinfo=false;
     this.buttonSvae=false;
+    this.hideproductDetails();
+    this.loading=false;
+    if(this.localStorage.retrieve('ProductData')  || this.localStorage.retrieve('ProductData')==''){
+      var TextVal=this.localStorage.retrieve("TextVal");
+      var regexp = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/
+      if(regexp.test(TextVal)==true){
+        var Postdata={url:TextVal};
+       this.loading=false;
+       /*
+       important
+       $.ajax({
+          type:'post',
+          url: '/api/Select/getHtml',
+          dataType: 'json',
+          data:{url:TextVal},
+          beforeSend: function(xhr){
+            xhr.setRequestHeader('Authorization', 'bearer '+localStorage.satellizer_token);
+            xhr.setRequestHeader('X-Alt-Referer',TextVal);
+          },
+          success: function(data){
+            GetSetDataForurl(data.data,TextVal);
+          }
+        });
+       */ /* $http.post('/api/Select/getHtml',Postdata).success(function(data){
+         GetSetDataForurl(data,TextVal);
+         }); */
+      }else if(TextVal !=''){
+        /*
+        important
+        setTimeout(function(){
+          $('#offlineStore').trigger('click');
+        },100);
+      }else{
+        $('#onlineStore').prop('checked',false);
+        $('#offlineStore').prop('checked',false);
+
+        */
+      }
+    }
 
 
 
@@ -224,8 +271,7 @@ export class ProductComponent implements OnInit, AfterViewInit {
       });*/
   }
 }
-   GetSetDataForurl(data,Prdoucturl)
-   {
+   GetSetDataForurl(data,Prdoucturl) {
    this.product.Productprice ="";
    this.product.ProductName="";
    this.setBraceValue=0.0;
@@ -300,33 +346,37 @@ important
   $('#ProductForm')[0].reset();
   */
 
-  $('#addOption').html('');
-  this.prodid=1;
-
-  $('#ProductName').val('');
+     while(this.options.length > 0) {
+       this.options.pop();
+     }
+     this.prodid=1;
+this.product.ProductName="";
+this.product.Productprice="";
+  /*
+  important
   $('#SetProductEro').removeClass('success');
   $('#SetProductEro').removeClass('error');
   $("#SetProductEroHtml").html('<i class="material-icons md-24 align-vmid">check</i><i class="material-icons md-24 align-vmid">close</i>');
-
-  $('#Productprice').val('');
   $('#SetPriceClass').removeClass('success');
   $('#SetPriceClass').removeClass('error');
   $("#SetPriceClassHtml").html('<i class="material-icons md-24 align-vmid">check</i><i class="material-icons md-24 align-vmid">close</i>');
   $("#SetPriceClassEro").html('');
+*/
+  this.setSrcTagValue='';
 
-  $('#setSrcTag').attr('src','');
-  $('#setSrcTag').css('display','none');
-  $('#RetailsName').val('');
-
-  $('#img_name').html('');
+  this.img_nameValue="";
+/*
+important
   $('#upload-img').html('');
   $('#upload-img').html('<div class="dz-default dz-message"><span>Drag and drop images to upload <br> or <br> <a class="button nrm-pad uppercase mrg-t-s">Choose images</a></span></div>');
+*/
 
 }
    hideproductDetails(){
-  $('#Productdetails').hide();
-  $('#Packageinfo').hide();
-  $('#buttonSvae').hide();
+     this.Productdetails=false;
+     this.Packageinfo=false;
+     this.buttonSvae=false;
+
 }
    ShowproductDetails(){
      this.Productdetails=true;
@@ -334,27 +384,184 @@ important
      this.buttonSvae=true;
 }
    productResrt(){
-  $('#PackageForm')[0].reset();
-  $('#ProductForm')[0].reset();
-  $('#addOption').html('');
-  prodid=1;
+     this.Package={};
+     this.store= new Store();
+     this.storeActive= new StoreStatus();
+     this.product=new Product();
+     while(this.options.length > 0) {
+       this.options.pop();
+     }
+
 }
    validationForm(){
-  var RetailsName=$('#RetailsName').val();
-  if($.trim(RetailsName)==''){
-    $('#Retailer_error').html('required')
+  var RetailsName=this.store.RetailsName;
+  if(RetailsName==''){
+    this.Retailer_errorValue='required';
   }else{
-    $('#Retailer_error').html('')
-  }
+    this.Retailer_errorValue='';  }
 }
    validationForm1(){
-  var autocomplete=$('#autocomplete').val();
-  if($.trim(autocomplete)==''){
-    $('#autocomplete_eror').html('required')
+  var autocomplete=this.store.address;
+  if(autocomplete==''){
+    this.autocomplete_erorValue='required';
   }else{
-    $('#autocomplete_eror').html('')
+    this.autocomplete_erorValue='';
   }
 }
+   goOnline() {
+    var regexp = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/
+    var Prdoucturl=$('#SetOnlineLink').val();
+    this.loading=true;
+    this.hideproductDetails();
+    this.productResrt();
+    if(regexp.test(Prdoucturl)==true){
+      //ShowproductDetails();
+    }else{
+      $('.loading').hide();
+      //hideproductDetails();
+    }
+    /*
+     important
+     var Postdata={url:Prdoucturl};
+     $.ajax({
+     type:'post',
+     url: '/api/Select/getHtml',
+     dataType: 'json',
+     data:{url:Prdoucturl},
+     beforeSend: function(xhr){
+     xhr.setRequestHeader('Authorization', 'bearer '+localStorage.satellizer_token);
+     xhr.setRequestHeader('X-Alt-Referer',Prdoucturl);
+     },
+     success: function(data){
+     GetSetDataForurl(data.data,Prdoucturl);
+     }
+     });*/
+    /* $http.post('/api/Select/getHtml',Postdata).success(function(data){
+     GetSetDataForurl(data,Prdoucturl);
+     }); */
+  }
+   clickOfflineStrore() {
+    this.resetform();
+ /*
+ important
+    $('#onlineStore').attr('checked',false);
+    $('#offlineStore').attr('checked',true);*/
+
+    this.offlineStoreDetails=true;
+    this.onlineStoreDetails=false;
+    this.resetform();
+    /*important*/
+    if(this.storeActive.store=="2"){
+      this.hideproductDetails();
+      this.store.url="";
+    }
+  }
+   clickOnlineStore() {
+    this.resetform();
+    /*
+     important
+     $('#offlineStore').attr('checked',false);
+     $('#onlineStore').attr('checked',true);
+     */
+    this.onlineStoreDetails=true;
+    this.onlineStoreDetails=false;
+    this.resetform();
+    if(this.storeActive.store=="1"){
+      if(this.store.url==''){
+        this.hideproductDetails();
+      }
+    }
+  }
+   keyupRetailsName(){
+     var RetailsName=this.store.RetailsName;
+     if(RetailsName!=''){
+       this.ShowproductDetails();
+       var TextVal=this.localStorage.retrieve("TextVal");
+       this.product.ProductName=TextVal;
+     }
+     else{
+       this.hideproductDetails();
+        }
+     this.validationForm();
+  }
+   keyupAutocomplete(){
+     this.validationForm1();
+
+   }
+   keyupProductName(){
+     var ProductName = this.product.ProductName;
+   /*  if(ProductName !=''){
+       $('#SetProductEro').addClass('success');
+       $('#SetProductEro').removeClass('error');
+       $("#SetProductEroHtml").html('<i class="material-icons md-24 align-vmid">check</i><i class="material-icons md-24 align-vmid">close</i>');
+     }else{
+       $('#SetProductEro').removeClass('success');
+       $('#SetProductEro').addClass('error');
+       $("#SetProductEroHtml").html('<i class="material-icons md-24 align-vmid">close</i>');
+     }*/
+   }
+
+
+
+
+
+
+
+  $('#Productprice').on('keyup',function(){
+  var Productprice = $('#Productprice').val();
+  if($.trim(Productprice)==''){
+    $('#SetPriceClass').removeClass('success');
+    $('#SetPriceClass').addClass('error');
+    $("#SetPriceClassHtml").html('<i class="material-icons md-24 align-vmid">close</i>');
+    $("#SetPriceClassEro").html('required');
+  }else if($.isNumeric(Productprice)==true){
+    if(Productprice <= 500){
+      $('#SetPriceClass').addClass('success');
+      $('#SetPriceClass').removeClass('error');
+      $("#SetPriceClassHtml").html('<i class="material-icons md-24 align-vmid">check</i><i class="material-icons md-24 align-vmid">close</i>');
+      $("#SetPriceClassEro").html('');
+    }else{
+      $('#SetPriceClass').removeClass('success');
+      $('#SetPriceClass').addClass('error');
+      $("#SetPriceClassHtml").html('<i class="material-icons md-24 align-vmid">close</i>');
+      $("#SetPriceClassEro").html('Should be maximum 500$');
+    }
+  }else{
+    $('#SetPriceClass').removeClass('success');
+    $('#SetPriceClass').addClass('error');
+    $("#SetPriceClassHtml").html('<i class="material-icons md-24 align-vmid">close</i>');
+    $("#SetPriceClassEro").html('Enter The Number');
+  }
+  if(Productprice){
+    var braseVal=Productprice / 5 ;
+  }else{
+    var braseVal='';
+  }
+  if(braseVal !=''){
+    $('#setBrace').html(braseVal.toFixed(2) +'  bars');
+  }else{
+    $('#setBrace').html('0.0 bars');
+  }
+});
+  $( "#addOptionProduct" ).click(function() {
+  $('#addOption').append('<div id="add_cls_'+prodid+'" data_id="'+prodid+'"><div class="small-6 column">'+
+    '<label>Option name</label>'+
+    '<input type="text" placeholder="eg: Size, Color, ..." name="optionsName[]"/>'+
+    '</div>'+
+    '<div class="small-5 column">'+
+    '<label>Value</label>'+
+    '<input type="text"  name="optionsValues[]" />'+
+    '</div>'+
+    '<div class="small-1 column pos-rel">'+
+    '<div class="l-space"></div>'+
+    '<button class="addcloseButton" data_id="'+prodid+'"><i class="material-icons md-24">close</i></button>'+
+    '</div></div>');
+  prodid++;
+});
+  $('body').on("click",'.addcloseButton', function() {
+  var id=$(this).attr('data_id');
+  $('#add_cls_'+id).remove();
+});
 
 
 }

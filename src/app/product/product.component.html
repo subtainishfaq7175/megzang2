@@ -22,7 +22,7 @@
 
           <div class="small-11 small-centered column">
 
-            <input type="radio" id="onlineStore" *ngIf="onlineStore" [(ngModel)]="storeActive.store" [value]="1" name="store" [ngModelOptions]="{standalone: true}"/>
+            <input type="radio" id="onlineStore" *ngIf="onlineStore" [(ngModel)]="storeActive.store" [value]="1" name="store" [ngModelOptions]="{standalone: true}" (click)="clickOnlineStore()"/>
             <label for="onlineStore">Online Store</label>
 
             <div class="store-details" id="onlineStoreDetails" *ngIf="onlineStoreDetails" style="display:none;">
@@ -32,7 +32,7 @@
                 <input class="input-group-field" id="SetOnlineLink" *ngIf="SetOnlineLink" [(ngModel)]="store.url" type="text" [ngModelOptions]="{standalone: true}">
 
                 <div class="input-group-button">
-                  <button id="GoOnline" class="button" *ngIf="GoOnline">
+                  <button id="GoOnline" class="button" *ngIf="GoOnline" (click)="goOnline()">
                     <i class="material-icons md-36 line-none align-vmid">keyboard_arrow_right</i>
                   </button>
                 </div>
@@ -44,7 +44,7 @@
 
             <div class="space"></div>
 
-            <input type="radio" id="offlineStore" *ngIf="offlineStore" [(ngModel)]="storeActive.store" [value]="2" name="store"  [ngModelOptions]="{standalone: true}"/>
+            <input type="radio" id="offlineStore" *ngIf="offlineStore" [(ngModel)]="storeActive.store" [value]="2" name="store"  [ngModelOptions]="{standalone: true}" (click)="clickOfflineStrore()"/>
             <label for="offlineStore">Offline Store</label>
 
             <div class="store-details" id="offlineStoreDetails" *ngIf="offlineStoreDetails" style="display:none;">
@@ -54,15 +54,15 @@
                     <div class="space"></div>
 
                     <label class="font-m">Retailer name</label>
-                    <input type="text" id="RetailsName" *ngIf="RetailsName" [(ngModel)]="store.RetailsName" [ngModelOptions]="{standalone: true}"/>
-                    <label id="Retailer_error" *ngIf="Retailer_error" style="color:red;"></label>
+                    <input type="text" id="RetailsName" *ngIf="RetailsName" [(ngModel)]="store.RetailsName" [ngModelOptions]="{standalone: true}" (keyup)="keyupRetailsName()"/>
+                    <label id="Retailer_error" *ngIf="Retailer_error" style="color:red;">{{Retailer_errorValue}}</label>
                     <div class="space"></div>
 
                     <label class="font-m">Retailer address</label>
                     <div id="locationField" *ngIf="locationField">
-                      <input id="autocomplete" placeholder="Enter your address" *ngIf="autocomplete" [(ngModel)]="store.address" type="text" [ngModelOptions]="{standalone: true}"/>
+                      <input id="autocomplete" placeholder="Enter your address" *ngIf="autocomplete" [(ngModel)]="store.address" type="text" [ngModelOptions]="{standalone: true}" (keyup)="keyupAutocomplete()"/>
                     </div>
-                    <label id="autocomplete_eror" *ngIf="autocomplete_eror" style="color:red;"></label>
+                    <label id="autocomplete_eror" *ngIf="autocomplete_eror" style="color:red;">{{autocomplete_erorValue}}</label>
                     <div class="space"></div>
 
                     <div id="address" *ngIf="address">
@@ -130,7 +130,7 @@
 									<i class="material-icons md-24 align-vmid">check</i>
 									<i class="material-icons md-24 align-vmid">close</i>
 								</span>
-              <input class="input-group-field" type="text" [(ngModel)]="product.ProductName" id="ProductName" *ngIf="ProductName" [ngModelOptions]="{standalone: true}"/>
+              <input class="input-group-field" type="text" [(ngModel)]="product.ProductName" id="ProductName" *ngIf="ProductName" [ngModelOptions]="{standalone: true}" (keyup)="keyupProductName()"/>
             </div>
 
             <div class="l-space"></div>
@@ -184,10 +184,12 @@
             <!-- http://foundation.zurb.com/sites/docs/toggler.html for more details -->
             <div id="addOption" *ngIf="addOption" class="row mrg-b-m">
 
+              <app-option [optionsarray]="options"></app-option>
+
             </div>
 
             <!--<a data-toggle="addOption" class="button" id="addOptionProduct">-->
-            <a data-toggle="addOption" class="button" id="addOptionProduct" *ngIf="addOptionProduct">
+            <a  class="button" id="addOptionProduct" click="" *ngIf="addOptionProduct">
               Add option
             </a>
             <!-- END product options -->
@@ -212,7 +214,7 @@
             <!-- one thumbnail image -->
             <div class="column">
               <div class="img-prev pos-rel">
-                <img #setSrcT class="thumbnail" id="setSrcTag" *ngIf="setSrcTag" src="{{setSrcTagValue}}" alt="product name" />
+                <img #setSrcT class="thumbnail" id="setSrcTag" *ngIf="setSrcTag" [src]="setSrcTagValue" alt="product name" />
 
                 <div class="img-prev-options pos-abs width-full height-full pos-top pos-left text-center elevation-2 bg-black-transp">
                   <!-- delete image -->
@@ -348,5 +350,5 @@
     </button>
   </div>
 </div>
-<label hidden id="img_name" *ngIf="img_name"> </label>
+<label hidden id="img_name" *ngIf="img_name">{{img_nameValue}} </label>
 <div class="xl-space"></div>
