@@ -12,6 +12,7 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
 import {Ng2Webstorage} from "ng2-webstorage";
 import {AuthenticationService} from "./services/authentication.service";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
+import { OptionComponent } from './product/option/option.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
     MegzComponent,
     DashboardComponent,
     ProductComponent,
-    ResetPasswordComponent
+    ResetPasswordComponent,
+    OptionComponent
   ],
   imports: [
     BrowserModule,

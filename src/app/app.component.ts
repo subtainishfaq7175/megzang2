@@ -123,6 +123,7 @@ export class AppComponent implements OnInit ,AfterViewInit{
         this.localStorage.store("currentUser",testUser);
         this.loginError = false;
         this.loginErrorText = '';
+        this.localStorage.store('satellizer_token',data.token);
 
 
 
@@ -184,6 +185,8 @@ export class AppComponent implements OnInit ,AfterViewInit{
         this.localStorage.store("currentUser",testUser);
         this.loginError = false;
         this.loginErrorText = '';
+        this.localStorage.store('satellizer_token',data.token);
+
 
 
 

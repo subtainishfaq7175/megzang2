@@ -2,7 +2,7 @@
 <div class="height-full width-full bg-primary-grad pos-fxd pos-top elevation-under"></div>
 <div class="l-space"></div>
 
-<div class="row" id="setHeadre">
+<div class="row" id="setHeadre" *ngIf="setHeadre">
   <div class="small-12 column text-center">
     <h1 class="font-white">Add product</h1>
   </div>
@@ -15,24 +15,24 @@
     <h4 class="font-white">
       Where can it be bought at?
     </h4>
-    <form id="StoreForm">
+    <form id="StoreForm" *ngIf="StoreForm">
       <div class="pad-r pad-l">
         <div class="row bg-white">
           <div class="l-space"></div>
 
           <div class="small-11 small-centered column">
 
-            <input type="radio" id="onlineStore" [(ngModel)]="storeActive.store" value="1" name="store" [ngModelOptions]="{standalone: true}"/>
+            <input type="radio" id="onlineStore" *ngIf="onlineStore" [(ngModel)]="storeActive.store" [value]="1" name="store" [ngModelOptions]="{standalone: true}"/>
             <label for="onlineStore">Online Store</label>
 
-            <div class="store-details" id="onlineStoreDetails" style="display:none;">
+            <div class="store-details" id="onlineStoreDetails" *ngIf="onlineStoreDetails" style="display:none;">
               <!-- product URL -->
               <div class="input-group">
                 <span class="input-group-label">URL</span>
-                <input class="input-group-field" id="SetOnlineLink" [(ngModel)]="store.url" type="text" [ngModelOptions]="{standalone: true}">
+                <input class="input-group-field" id="SetOnlineLink" *ngIf="SetOnlineLink" [(ngModel)]="store.url" type="text" [ngModelOptions]="{standalone: true}">
 
                 <div class="input-group-button">
-                  <button id="GoOnline" class="button">
+                  <button id="GoOnline" class="button" *ngIf="GoOnline">
                     <i class="material-icons md-36 line-none align-vmid">keyboard_arrow_right</i>
                   </button>
                 </div>
@@ -44,53 +44,53 @@
 
             <div class="space"></div>
 
-            <input type="radio" id="offlineStore" [(ngModel)]="storeActive.store" value="2" name="store"  [ngModelOptions]="{standalone: true}"/>
+            <input type="radio" id="offlineStore" *ngIf="offlineStore" [(ngModel)]="storeActive.store" [value]="2" name="store"  [ngModelOptions]="{standalone: true}"/>
             <label for="offlineStore">Offline Store</label>
 
-            <div class="store-details" id="offlineStoreDetails" style="display:none;">
+            <div class="store-details" id="offlineStoreDetails" *ngIf="offlineStoreDetails" style="display:none;">
               <div class="row collapse">
                 <div class="small-12 medium-10 large-7 column">
                   <div class="pad-all-m bg-light-gray">
                     <div class="space"></div>
 
                     <label class="font-m">Retailer name</label>
-                    <input type="text" id="RetailsName" [(ngModel)]="store.RetailsName" [ngModelOptions]="{standalone: true}"/>
-                    <label id="Retailer_error" style="color:red;"></label>
+                    <input type="text" id="RetailsName" *ngIf="RetailsName" [(ngModel)]="store.RetailsName" [ngModelOptions]="{standalone: true}"/>
+                    <label id="Retailer_error" *ngIf="Retailer_error" style="color:red;"></label>
                     <div class="space"></div>
 
                     <label class="font-m">Retailer address</label>
-                    <div id="locationField">
-                      <input id="autocomplete" placeholder="Enter your address" [(ngModel)]="store.address" type="text" [ngModelOptions]="{standalone: true}"/>
+                    <div id="locationField" *ngIf="locationField">
+                      <input id="autocomplete" placeholder="Enter your address" *ngIf="autocomplete" [(ngModel)]="store.address" type="text" [ngModelOptions]="{standalone: true}"/>
                     </div>
-                    <label id="autocomplete_eror" style="color:red;"></label>
+                    <label id="autocomplete_eror" *ngIf="autocomplete_eror" style="color:red;"></label>
                     <div class="space"></div>
 
-                    <div id="address">
+                    <div id="address" *ngIf="address">
                       <label>Street address</label>
                       <div class="row collapse">
                         <div class="small-8 column">
-                          <input type="text" id="route" placeholder="Street Name" [(ngModel)]="store.StreetName" disabled="true" [ngModelOptions]="{standalone: true}"/>
+                          <input type="text" id="route" *ngIf="route" placeholder="Street Name" [(ngModel)]="store.StreetName" disabled="true" [ngModelOptions]="{standalone: true}"/>
                         </div>
                         <div class="small-4 column">
-                          <input type="text" id="street_number" placeholder="Number" [(ngModel)]="store.Number" disabled="true" [ngModelOptions]="{standalone: true}"/>
+                          <input type="text" id="street_number" *ngIf="street_number" placeholder="Number" [(ngModel)]="store.Number" disabled="true" [ngModelOptions]="{standalone: true}"/>
                         </div>
                       </div>
 
                       <div class="space"></div>
 
                       <label>City</label>
-                      <input type="text" id="locality" disabled="true" [(ngModel)]="store.City" [ngModelOptions]="{standalone: true}"/>
-                      <input class="hide" type="hidden" id="postal_code" [(ngModel)]="store.postal_code" disabled="true" [ngModelOptions]="{standalone: true}"/>
+                      <input type="text" id="locality" *ngIf="locality" disabled="true" [(ngModel)]="store.City" [ngModelOptions]="{standalone: true}"/>
+                      <input class="hide" type="hidden" id="postal_code" *ngIf="postal_code" [(ngModel)]="store.postal_code" disabled="true" [ngModelOptions]="{standalone: true}"/>
 
                       <div class="space"></div>
 
                       <label>State</label>
-                      <input type="text" id="administrative_area_level_1" [(ngModel)]="store.State" disabled="true" [ngModelOptions]="{standalone: true}"/>
+                      <input type="text" id="administrative_area_level_1" *ngIf="administrative_area_level_1" [(ngModel)]="store.State" disabled="true" [ngModelOptions]="{standalone: true}"/>
 
                       <div class="space"></div>
 
                       <label>Country</label>
-                      <input type="text" id="country" [(ngModel)]="store.Country" disabled="true" [ngModelOptions]="{standalone: true}"/>
+                      <input type="text" id="country" *ngIf="country" [(ngModel)]="store.Country" disabled="true" [ngModelOptions]="{standalone: true}"/>
                     </div>
 
                     <div class="space"></div>
@@ -107,7 +107,7 @@
 </div>
 <div class="loading" *ngIf="loading">Loading&#8230;</div>
 <div class="l-space"></div>
-<div class="row" id="Productdetails">
+<div class="row" id="Productdetails" *ngIf="Productdetails">
   <div class="small-12 column">
     <h4 class="font-white">
       Product details
@@ -116,7 +116,7 @@
     <div class="pad-r pad-l">
       <div class="row bg-white">
         <div class="l-space"></div>
-        <form id="ProductForm">
+        <form id="ProductForm" *ngIf="ProductForm">
           <div class="small-12 medium-7 medium-push-5 columns">
             <!-- product name -->
             <label class="font-m">Product name</label>
@@ -125,12 +125,12 @@
                               - for success: add class "success"
                               - for error: add class "error"
                           -->
-            <div class="input-group validate" id="SetProductEro">
-								<span class="input-group-label" id="SetProductEroHtml">
+            <div class="input-group validate" id="SetProductEro" *ngIf="SetProductEro">
+								<span class="input-group-label" id="SetProductEroHtml" *ngIf="SetProductEroHtml">
 									<i class="material-icons md-24 align-vmid">check</i>
 									<i class="material-icons md-24 align-vmid">close</i>
 								</span>
-              <input class="input-group-field" type="text" [(ngModel)]="product.ProductName" id="ProductName" [ngModelOptions]="{standalone: true}"/>
+              <input class="input-group-field" type="text" [(ngModel)]="product.ProductName" id="ProductName" *ngIf="ProductName" [ngModelOptions]="{standalone: true}"/>
             </div>
 
             <div class="l-space"></div>
@@ -143,23 +143,23 @@
                 <!-- PRICE -->
 
                 <!-- for error in the filed, add class "error" -->
-                <div class="input-group validate" id="SetPriceClass">
-										<span class="input-group-label" id="SetPriceClassHtml">
+                <div class="input-group validate" id="SetPriceClass" *ngIf="SetPriceClass">
+										<span class="input-group-label" id="SetPriceClassHtml" *ngIf="SetPriceClassHtml">
 											<i class="material-icons md-24 align-vmid">check</i>
 											<i class="material-icons md-24 align-vmid">close</i>
 										</span>
-                  <input class="input-group-field text-right" id="Productprice" [(ngModel)]="product.Productprice" type="text"  [ngModelOptions]="{standalone: true}"/>
+                  <input class="input-group-field text-right" id="Productprice" *ngIf="Productprice" [(ngModel)]="product.Productprice" type="text"  [ngModelOptions]="{standalone: true}"/>
                   <div class="input-group-button">
 
                   </div>
                 </div>
                 <!-- when there is an error, show the error info -->
-                <p class="help-text error" id="SetPriceClassEro"></p>
+                <p class="help-text error" id="SetPriceClassEro" *ngIf="SetPriceClassEro"></p>
                 <!-- END PRICE -->
                 <div class="xs-space show-for-small-only"></div>
               </div>
               <div class="small-3 medium-3 large-2 column">
-                <select id="selectUsa">
+                <select id="selectUsa" *ngIf="selectUsa">
                   <option value="60.70">$</option>
                   <option value="72.30">€</option>
                 </select>
@@ -170,7 +170,7 @@
                                       transform the price into bars
                                   -->
                 <div class="primary callout mrg-l-m mrg-none-small">
-                  <p><strong id="setBrace">0.0 bars</strong></p>
+                  <p><strong id="setBrace" *ngIf="setBrace">{{setBraceValue.toFixed(2)}} bars</strong></p>
                 </div>
               </div>
             </div>
@@ -182,12 +182,12 @@
             <p class="help-text">eg: size, color ... </p>
 
             <!-- http://foundation.zurb.com/sites/docs/toggler.html for more details -->
-            <div id="addOption" class="row mrg-b-m">
+            <div id="addOption" *ngIf="addOption" class="row mrg-b-m">
 
             </div>
 
             <!--<a data-toggle="addOption" class="button" id="addOptionProduct">-->
-            <a data-toggle="addOption" class="button" id="addOptionProduct">
+            <a data-toggle="addOption" class="button" id="addOptionProduct" *ngIf="addOptionProduct">
               Add option
             </a>
             <!-- END product options -->
@@ -203,8 +203,8 @@
 
           <div class="row small-up-1 large-up-2">
             <div class="column">
-              <form id="upload-img" class="dropzone">
-                <div class="fallback" id="upload-img">
+              <form id="upload_img" *ngIf="upload_img" class="dropzone">
+                <div class="fallback" >
                   <input name="file" type="file" />
                 </div>
               </form>
@@ -212,7 +212,7 @@
             <!-- one thumbnail image -->
             <div class="column">
               <div class="img-prev pos-rel">
-                <img class="thumbnail" id="setSrcTag" src="images/test/prod.jpg" alt="product name" />
+                <img #setSrcT class="thumbnail" id="setSrcTag" *ngIf="setSrcTag" src="{{setSrcTagValue}}" alt="product name" />
 
                 <div class="img-prev-options pos-abs width-full height-full pos-top pos-left text-center elevation-2 bg-black-transp">
                   <!-- delete image -->
@@ -237,7 +237,7 @@
 
 <div class="l-space"></div>
 
-<div class="row" id="Packageinfo">
+<div class="row" id="Packageinfo" *ngIf="Packageinfo">
   <div class="small-12 column">
     <h4 class="font-white">
       Package info
@@ -246,32 +246,32 @@
     <div class="pad-r pad-l">
       <div class="row bg-white">
         <div class="l-space"></div>
-        <form id="PackageForm">
+        <form id="PackageForm" *ngIf="PackageForm">
           <div class="small-11 small-centered column">
             <!-- product weight -->
             <label class="font-m">Package weight</label>
             <div class="radio-button-group">
               <div class="row small-up-1 medium-up-4 large-up-4 button-group toggle" data-toggle="buttons-radio">
                 <div class="column">
-                  <input type="radio" id="w1" name="weight" [(ngModel)]="Package.weight" value="Under 2kg" data-toggle="button" [ngModelOptions]="{standalone: true}">
+                  <input type="radio" id="w1" *ngIf="w1" name="weight" [(ngModel)]="Package.weight" [value]="Under 2kg" data-toggle="button" [ngModelOptions]="{standalone: true}">
                   <label class="expanded button pos-rel" for="w1">
                     <span class="block">Under 2kg</span>
                   </label>
                 </div>
                 <div class="column">
-                  <input type="radio" id="w2" name="weight" [(ngModel)]="Package.weight" value="2 - 5 kg" data-toggle="button" [ngModelOptions]="{standalone: true}">
+                  <input type="radio" id="w2" *ngIf="w2" name="weight" [(ngModel)]="Package.weight" [value]="2 - 5 kg" data-toggle="button" [ngModelOptions]="{standalone: true}">
                   <label  class="expanded button pos-rel" for="w2">
                     <span class="block">2 - 5 kg</span>
                   </label>
                 </div>
                 <div class="column">
-                  <input type="radio" id="w3" name="weight" [(ngModel)]="Package.weight" value="5 - 10 kg" data-toggle="button" [ngModelOptions]="{standalone: true}">
+                  <input type="radio" id="w3" *ngIf="w3" name="weight" [(ngModel)]="Package.weight" [value]="5 - 10 kg" data-toggle="button" [ngModelOptions]="{standalone: true}">
                   <label  class="expanded button pos-rel" for="w3">
                     <span class="block">5 - 10 kg</span>
                   </label>
                 </div>
                 <div class="column">
-                  <input type="radio" id="w4" name="weight" [(ngModel)]="Package.weight" value="More than 10kg" data-toggle="button" [ngModelOptions]="{standalone: true}">
+                  <input type="radio" id="w4" *ngIf="w4" name="weight" [(ngModel)]="Package.weight" [value]="More than 10kg" data-toggle="button" [ngModelOptions]="{standalone: true}">
                   <label  class="expanded button pos-rel" for="w4">
                     <span class="block">More than 10kg</span>
                   </label>
@@ -286,42 +286,42 @@
               <div class="radio-button-group">
                 <div class="row small-up-3 medium-up-4 large-up-6 button-group toggle" data-toggle="buttons-radio">
                   <div class="column">
-                    <input type="radio" id="s1" name="size" [(ngModel)]="Package.size" value="Tiny" data-toggle="button" [ngModelOptions]="{standalone: true}">
+                    <input type="radio" id="s1" *ngIf="s1" name="size" [(ngModel)]="Package.size" [value]="Tiny" data-toggle="button" [ngModelOptions]="{standalone: true}">
                     <label class="expanded button pos-rel" for="s1">
                       <i class="material-icons line-med md-24 font-success">mail</i>
                       <span class="block">Tiny</span>
                     </label>
                   </div>
                   <div class="column">
-                    <input type="radio" id="s2" name="size" [(ngModel)]="Package.size" value="Small" data-toggle="button" [ngModelOptions]="{standalone: true}">
+                    <input type="radio" id="s2" *ngIf="s2" name="size" [(ngModel)]="Package.size" [value]="Small" data-toggle="button" [ngModelOptions]="{standalone: true}">
                     <label  class="expanded button pos-rel" for="s2">
                       <i class="material-icons line-med md-24 font-success">shopping_basket</i>
                       <span class="block">Small</span>
                     </label>
                   </div>
                   <div class="column">
-                    <input type="radio" id="s3" name="size" [(ngModel)]="Package.size" value="Medium" data-toggle="button" [ngModelOptions]="{standalone: true}">
+                    <input type="radio" id="s3" *ngIf="s3" name="size" [(ngModel)]="Package.size" [value]="Medium" data-toggle="button" [ngModelOptions]="{standalone: true}">
                     <label  class="expanded button pos-rel" for="s3">
                       <i class="material-icons line-med md-24 font-success">label</i>
                       <span class="block">Medium</span>
                     </label>
                   </div>
                   <div class="column">
-                    <input type="radio" id="s4" name="size" [(ngModel)]="Package.size" value="Large" data-toggle="button" [ngModelOptions]="{standalone: true}">
+                    <input type="radio" id="s4" *ngIf="s4" name="size" [(ngModel)]="Package.size" [value]="Large" data-toggle="button" [ngModelOptions]="{standalone: true}">
                     <label  class="expanded button pos-rel" for="s4">
                       <i class="material-icons line-med md-24 font-success">work</i>
                       <span class="block">Large</span>
                     </label>
                   </div>
                   <div class="column">
-                    <input type="radio" id="s5" name="size" [(ngModel)]="Package.size" value="XLarge" data-toggle="button" [ngModelOptions]="{standalone: true}">
+                    <input type="radio" id="s5" *ngIf="s5" name="size" [(ngModel)]="Package.size" [value]="XLarge" data-toggle="button" [ngModelOptions]="{standalone: true}">
                     <label  class="expanded button pos-rel" for="s5">
                       <i class="material-icons line-med md-24 font-success">label</i>
                       <span class="block">XLarge</span>
                     </label>
                   </div>
                   <div class="column">
-                    <input type="radio" id="s6" name="size" [(ngModel)]="Package.size" value="Huge" data-toggle="button" [ngModelOptions]="{standalone: true}">
+                    <input type="radio" id="s6" *ngIf="s6" name="size" [(ngModel)]="Package.size" [value]="Huge" data-toggle="button" [ngModelOptions]="{standalone: true}">
                     <label  class="expanded button pos-rel" for="s6">
                       <i class="material-icons line-med md-24 font-success">label</i>
                       <span class="block">Huge</span>
@@ -341,131 +341,12 @@
 </div>
 <div class="xl-space"></div>
 
-<div class="row" id="buttonSvae">
+<div class="row" id="buttonSvae" *ngIf="buttonSvae">
   <div class="small-12 column text-right">
     <button class="button secondary large" type="submit" (click)="saveProduct()">
       Save product
     </button>
   </div>
 </div>
-<label hidden id="img_name"> </label>
+<label hidden id="img_name" *ngIf="img_name"> </label>
 <div class="xl-space"></div>
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAiT8vgeEhxiqJLwANEO-Qo6jyjrBAakEE&libraries=places"></script>
-<script>
-  setTimeout(function(){
-    $(document).foundation();
-    loadScript();
-  },500);
-  setTimeout(function(){
-    Dropzone.autoDiscover = false;
-    var fileList = new Array;
-    var myDropzone = this;
-    var i =0;
-    $(".dropzone").dropzone({
-      addRemoveLinks: true,
-      dictDefaultMessage:"Drag and drop images to upload <br /> or <br /> <a class='button nrm-pad uppercase mrg-t-s'>Choose images</a>",
-      paramName: "Image",
-      init: function() {
-        // Hack: Add the dropzone class to the element
-        $(this.element).addClass("dropzone");
-        this.on("success", function(file, serverFileName,data) {
-          var FileName=data.currentTarget.response;
-          var ImageName=FileName.replace(/\"/g,'');
-          var fileuploded = file.previewElement.querySelector("[data-dz-name]");
-          fileuploded.innerHTML = ImageName;
-          $('#img_name').append(ImageName+',');
-          i++;
-        });
-        this.on("removedfile", function(file) {
-          rmvFile=file.previewElement.querySelector("[data-dz-name]").innerHTML;
-          //var rmvFile = file.name;
-          if (rmvFile){
-            $.ajax({
-              url: '/api/Select/removeimg',
-              type: "POST",
-              data: { "FileName" : rmvFile },
-              success:function(data){
-                var GetImgname=data.imgdata;
-                var SetDropZoneFile=[];
-                var ImgDa= $('#img_name').html();
-                var SetDropFile=ImgDa.split(',');
-                for(var i=0;i<SetDropFile.length;i++){
-                  if(SetDropFile[i]!=''){
-                    if($.trim(GetImgname)==$.trim(SetDropFile[i])){
-                    }else{
-                      SetDropZoneFile.push($.trim(SetDropFile[i]+','));
-                    }
-                  }
-                }
-                $('#img_name').html(SetDropZoneFile.join());
-              }
-            });
-          }
-        });
-        var dropzone = this;
-        clearDropzone = function(){
-          dropzone.removeAllFiles(true);
-
-        };
-
-      },
-      url:'/api/Select/uploadFiles'
-    });
-  },500);
-  function loadScript(){
-    $('#setHeadre').css('margin-top','4rem');
-    var placeSearch, autocomplete;
-    var componentForm = {
-      street_number: 'short_name',
-      route: 'long_name',
-      locality: 'long_name',
-      administrative_area_level_1: 'short_name',
-      country: 'long_name',
-      postal_code: 'short_name'
-    };
-    autocomplete = new google.maps.places.Autocomplete(
-      /** @type {!HTMLInputElement} */(document.getElementById('autocomplete')));
-    //{types: ['geocode']
-    //});
-
-    // When the user selects an address from the dropdown, populate the address
-    // fields in the form.
-    autocomplete.addListener('place_changed', function(){
-      var place = autocomplete.getPlace();
-
-      for (var component in componentForm) {
-        document.getElementById(component).value = '';
-        document.getElementById(component).disabled = false;
-      }
-
-      // Get each component of the address from the place details
-      // and fill the corresponding field on the form.
-      for (var i = 0; i < place.address_components.length; i++) {
-        var addressType = place.address_components[i].types[0];
-        if (componentForm[addressType]) {
-          var val = place.address_components[i][componentForm[addressType]];
-          document.getElementById(addressType).value = val;
-        }
-      }
-    });
-
-  }
-
-  function geolocate() {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(function(position) {
-        var geolocation = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude
-        };
-        var circle = new google.maps.Circle({
-          center: geolocation,
-          radius: position.coords.accuracy
-        });
-        autocomplete.setBounds(circle.getBounds());
-      });
-    }
-  }
-
-
-</script>
