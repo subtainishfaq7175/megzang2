@@ -22,14 +22,14 @@
 
           <div class="small-11 small-centered column">
 
-            <input type="radio" id="onlineStore" ng-model="storeActive.store" value="1" name="store"/>
+            <input type="radio" id="onlineStore" [(ngModel)]="storeActive.store" value="1" name="store" [ngModelOptions]="{standalone: true}"/>
             <label for="onlineStore">Online Store</label>
 
             <div class="store-details" id="onlineStoreDetails" style="display:none;">
               <!-- product URL -->
               <div class="input-group">
                 <span class="input-group-label">URL</span>
-                <input class="input-group-field" id="SetOnlineLink" ng-model="store.url" type="text">
+                <input class="input-group-field" id="SetOnlineLink" [(ngModel)]="store.url" type="text" [ngModelOptions]="{standalone: true}">
 
                 <div class="input-group-button">
                   <button id="GoOnline" class="button">
@@ -44,7 +44,7 @@
 
             <div class="space"></div>
 
-            <input type="radio" id="offlineStore" ng-model="storeActive.store" value="2" name="store" />
+            <input type="radio" id="offlineStore" [(ngModel)]="storeActive.store" value="2" name="store"  [ngModelOptions]="{standalone: true}"/>
             <label for="offlineStore">Offline Store</label>
 
             <div class="store-details" id="offlineStoreDetails" style="display:none;">
@@ -54,13 +54,13 @@
                     <div class="space"></div>
 
                     <label class="font-m">Retailer name</label>
-                    <input type="text" id="RetailsName" ng-model="store.RetailsName"/>
+                    <input type="text" id="RetailsName" [(ngModel)]="store.RetailsName" [ngModelOptions]="{standalone: true}"/>
                     <label id="Retailer_error" style="color:red;"></label>
                     <div class="space"></div>
 
                     <label class="font-m">Retailer address</label>
                     <div id="locationField">
-                      <input id="autocomplete" placeholder="Enter your address" ng-model="store.address" type="text" />
+                      <input id="autocomplete" placeholder="Enter your address" [(ngModel)]="store.address" type="text" [ngModelOptions]="{standalone: true}"/>
                     </div>
                     <label id="autocomplete_eror" style="color:red;"></label>
                     <div class="space"></div>
@@ -69,28 +69,28 @@
                       <label>Street address</label>
                       <div class="row collapse">
                         <div class="small-8 column">
-                          <input type="text" id="route" placeholder="Street Name" ng-model="store.StreetName" disabled="true" />
+                          <input type="text" id="route" placeholder="Street Name" [(ngModel)]="store.StreetName" disabled="true" [ngModelOptions]="{standalone: true}"/>
                         </div>
                         <div class="small-4 column">
-                          <input type="text" id="street_number" placeholder="Number" ng-model="store.Number" disabled="true" />
+                          <input type="text" id="street_number" placeholder="Number" [(ngModel)]="store.Number" disabled="true" [ngModelOptions]="{standalone: true}"/>
                         </div>
                       </div>
 
                       <div class="space"></div>
 
                       <label>City</label>
-                      <input type="text" id="locality" disabled="true" ng-model="store.City" />
-                      <input class="hide" type="hidden" id="postal_code" ng-model="store.postal_code" disabled="true" />
+                      <input type="text" id="locality" disabled="true" [(ngModel)]="store.City" [ngModelOptions]="{standalone: true}"/>
+                      <input class="hide" type="hidden" id="postal_code" [(ngModel)]="store.postal_code" disabled="true" [ngModelOptions]="{standalone: true}"/>
 
                       <div class="space"></div>
 
                       <label>State</label>
-                      <input type="text" id="administrative_area_level_1" ng-model="store.State" disabled="true" />
+                      <input type="text" id="administrative_area_level_1" [(ngModel)]="store.State" disabled="true" [ngModelOptions]="{standalone: true}"/>
 
                       <div class="space"></div>
 
                       <label>Country</label>
-                      <input type="text" id="country" ng-model="store.Country" disabled="true" />
+                      <input type="text" id="country" [(ngModel)]="store.Country" disabled="true" [ngModelOptions]="{standalone: true}"/>
                     </div>
 
                     <div class="space"></div>
@@ -130,7 +130,7 @@
 									<i class="material-icons md-24 align-vmid">check</i>
 									<i class="material-icons md-24 align-vmid">close</i>
 								</span>
-              <input class="input-group-field" type="text" ng-model="product.ProductName" id="ProductName"/>
+              <input class="input-group-field" type="text" [(ngModel)]="product.ProductName" id="ProductName" [ngModelOptions]="{standalone: true}"/>
             </div>
 
             <div class="l-space"></div>
@@ -148,7 +148,7 @@
 											<i class="material-icons md-24 align-vmid">check</i>
 											<i class="material-icons md-24 align-vmid">close</i>
 										</span>
-                  <input class="input-group-field text-right" id="Productprice" ng-model="product.Productprice" type="text" />
+                  <input class="input-group-field text-right" id="Productprice" [(ngModel)]="product.Productprice" type="text"  [ngModelOptions]="{standalone: true}"/>
                   <div class="input-group-button">
 
                   </div>
@@ -253,25 +253,25 @@
             <div class="radio-button-group">
               <div class="row small-up-1 medium-up-4 large-up-4 button-group toggle" data-toggle="buttons-radio">
                 <div class="column">
-                  <input type="radio" id="w1" name="weight" ng-model="Package.weight" value="Under 2kg" data-toggle="button">
+                  <input type="radio" id="w1" name="weight" [(ngModel)]="Package.weight" value="Under 2kg" data-toggle="button" [ngModelOptions]="{standalone: true}">
                   <label class="expanded button pos-rel" for="w1">
                     <span class="block">Under 2kg</span>
                   </label>
                 </div>
                 <div class="column">
-                  <input type="radio" id="w2" name="weight" ng-model="Package.weight" value="2 - 5 kg" data-toggle="button">
+                  <input type="radio" id="w2" name="weight" [(ngModel)]="Package.weight" value="2 - 5 kg" data-toggle="button" [ngModelOptions]="{standalone: true}">
                   <label  class="expanded button pos-rel" for="w2">
                     <span class="block">2 - 5 kg</span>
                   </label>
                 </div>
                 <div class="column">
-                  <input type="radio" id="w3" name="weight" ng-model="Package.weight" value="5 - 10 kg" data-toggle="button">
+                  <input type="radio" id="w3" name="weight" [(ngModel)]="Package.weight" value="5 - 10 kg" data-toggle="button" [ngModelOptions]="{standalone: true}">
                   <label  class="expanded button pos-rel" for="w3">
                     <span class="block">5 - 10 kg</span>
                   </label>
                 </div>
                 <div class="column">
-                  <input type="radio" id="w4" name="weight" ng-model="Package.weight" value="More than 10kg" data-toggle="button">
+                  <input type="radio" id="w4" name="weight" [(ngModel)]="Package.weight" value="More than 10kg" data-toggle="button" [ngModelOptions]="{standalone: true}">
                   <label  class="expanded button pos-rel" for="w4">
                     <span class="block">More than 10kg</span>
                   </label>
@@ -286,42 +286,42 @@
               <div class="radio-button-group">
                 <div class="row small-up-3 medium-up-4 large-up-6 button-group toggle" data-toggle="buttons-radio">
                   <div class="column">
-                    <input type="radio" id="s1" name="size" ng-model="Package.size" value="Tiny" data-toggle="button">
+                    <input type="radio" id="s1" name="size" [(ngModel)]="Package.size" value="Tiny" data-toggle="button" [ngModelOptions]="{standalone: true}">
                     <label class="expanded button pos-rel" for="s1">
                       <i class="material-icons line-med md-24 font-success">mail</i>
                       <span class="block">Tiny</span>
                     </label>
                   </div>
                   <div class="column">
-                    <input type="radio" id="s2" name="size" ng-model="Package.size" value="Small" data-toggle="button">
+                    <input type="radio" id="s2" name="size" [(ngModel)]="Package.size" value="Small" data-toggle="button" [ngModelOptions]="{standalone: true}">
                     <label  class="expanded button pos-rel" for="s2">
                       <i class="material-icons line-med md-24 font-success">shopping_basket</i>
                       <span class="block">Small</span>
                     </label>
                   </div>
                   <div class="column">
-                    <input type="radio" id="s3" name="size" ng-model="Package.size" value="Medium" data-toggle="button">
+                    <input type="radio" id="s3" name="size" [(ngModel)]="Package.size" value="Medium" data-toggle="button" [ngModelOptions]="{standalone: true}">
                     <label  class="expanded button pos-rel" for="s3">
                       <i class="material-icons line-med md-24 font-success">label</i>
                       <span class="block">Medium</span>
                     </label>
                   </div>
                   <div class="column">
-                    <input type="radio" id="s4" name="size" ng-model="Package.size" value="Large" data-toggle="button">
+                    <input type="radio" id="s4" name="size" [(ngModel)]="Package.size" value="Large" data-toggle="button" [ngModelOptions]="{standalone: true}">
                     <label  class="expanded button pos-rel" for="s4">
                       <i class="material-icons line-med md-24 font-success">work</i>
                       <span class="block">Large</span>
                     </label>
                   </div>
                   <div class="column">
-                    <input type="radio" id="s5" name="size" ng-model="Package.size" value="XLarge" data-toggle="button">
+                    <input type="radio" id="s5" name="size" [(ngModel)]="Package.size" value="XLarge" data-toggle="button" [ngModelOptions]="{standalone: true}">
                     <label  class="expanded button pos-rel" for="s5">
                       <i class="material-icons line-med md-24 font-success">label</i>
                       <span class="block">XLarge</span>
                     </label>
                   </div>
                   <div class="column">
-                    <input type="radio" id="s6" name="size" ng-model="Package.size" value="Huge" data-toggle="button">
+                    <input type="radio" id="s6" name="size" [(ngModel)]="Package.size" value="Huge" data-toggle="button" [ngModelOptions]="{standalone: true}">
                     <label  class="expanded button pos-rel" for="s6">
                       <i class="material-icons line-med md-24 font-success">label</i>
                       <span class="block">Huge</span>
@@ -343,7 +343,7 @@
 
 <div class="row" id="buttonSvae">
   <div class="small-12 column text-right">
-    <button class="button secondary large" type="submit" ng-click="saveProduct()">
+    <button class="button secondary large" type="submit" (click)="saveProduct()">
       Save product
     </button>
   </div>
