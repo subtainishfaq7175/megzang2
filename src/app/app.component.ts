@@ -1,9 +1,10 @@
-import {Component, OnInit, AfterViewInit, ElementRef} from '@angular/core';
+import {Component, OnInit, AfterViewInit, ElementRef, ViewChild} from '@angular/core';
 import {LocalStorageService} from "ng2-webstorage";
 import {User} from "./model/user";
 import {AuthenticationService} from "./services/authentication.service";
 import {Router} from "@angular/router";
 import {NgbModal, NgbModalRef} from "@ng-bootstrap/ng-bootstrap";
+import {NgForm} from "@angular/forms";
 
 declare var $:any;
 /*
@@ -18,7 +19,7 @@ let foundation = require('../../node_modules/foundation-sites/dist/js/foundation
   styleUrls: ['./merx.css']
 })
 export class AppComponent implements OnInit ,AfterViewInit{
-
+  @ViewChild('forgotsuccessT') eleme;
   ngAfterViewInit(): void {
 
 /*    $('body').on('click','#signupLogin',function(){
@@ -58,54 +59,35 @@ export class AppComponent implements OnInit ,AfterViewInit{
   showLogin : boolean=false;
   loginErrorText : string ='';
   forgotError :boolean=false;
+  registerError :boolean=false;
   forgotErrorText : string='';
+  registerErrorText : string='';
   currentActiveModal:NgbModalRef;
+  forgotMsg=true;
+  forgotMsgText='';
 
 
 
-constructor (private localStorage:LocalStorageService,private authService:AuthenticationService,private router:Router,private el: ElementRef ,private modalService: NgbModal)
-{
+  constructor (private localStorage:LocalStorageService,private authService:AuthenticationService,private router:Router,private el: ElementRef ,private modalService: NgbModal) {
 
 
 }
-
   saveValue() {
     this.localStorage.store('stored', "hello stored");
   }
-/*
-  $scope.newUser.email=$state.params.email;
-  $scope.newUser.token=$state.params.token;*/
-
-
-
-
-
-  forgotPassword () {
+  forgotPassword (form:NgForm) {
+    this.newUser.email=form.value.forgotEmail;
       this.authService.forgetPassword(this.newUser).subscribe(data=> {
+      this.email=this.newUser.email;
+          this.forgotMsg=true;
+          this.forgotMsgText=data.message;
+          console.log(data);
+          this.showModal(this.eleme);
 
-        /*if(data.message){
-          $scope.email=$scope.newUser.email;
-          $scope.forgotMsg=true;
-          $scope.forgotMsgText='';
-          if(angular.isArray(data.message)){
-            for(var i=0;i<data.message.length;i++){
-              $scope.forgotMsgText +=data.message+"\n";
-            }
-          }else{
-            $scope.forgotMsgText =data.message;
-          }
-          if(data.status=='success'){
-            $('#ForgotSuccess').trigger('click');
-            setTimeout(function(){
-              $('.reveal').foundation('close')
-            },3000);
-
-          }
-        }*/
       },
-      error => {/*
-        $scope.forgotMsg=true;
-        $scope.forgotMsgText='Something went wrong';*/}
+      error => {
+        this.forgotMsg=true;
+        this.forgotMsgText='Something went wrong';}
       )
   };
   init(){
@@ -128,8 +110,10 @@ constructor (private localStorage:LocalStorageService,private authService:Authen
     this.localStorage.clear("currentUser");//use rootscope for these
     this.router.navigateByUrl('/dashboard');
   };
-  login () {
-
+  login (form:NgForm) {
+       this.email=form.value.email;
+       this.password=form.value.password;
+       console.log(form);
     var testUser:User=new User(this.email,this.password);
 
     this.authService.login(testUser).subscribe(data => {
@@ -141,13 +125,13 @@ constructor (private localStorage:LocalStorageService,private authService:Authen
         this.loginErrorText = '';
 
 
+
       },
     error => {
+      console.log(error);
 
-/*
-      setup error , test error
       this.loginError = true;
-      this.loginErrorText = error.json();*/
+      this.loginErrorText = error.json();
     }
     );
 /*
@@ -190,8 +174,69 @@ constructor (private localStorage:LocalStorageService,private authService:Authen
     }
   });*/
 }
-  register() {
+  loginFromRegister () {
+    var testUser:User=new User(this.email,this.password);
 
+    this.authService.login(testUser).subscribe(data => {
+
+       this.localStorage.store('user', testUser);
+        this.localStorage.store("authenticated","true");
+        this.localStorage.store("currentUser",testUser);
+        this.loginError = false;
+        this.loginErrorText = '';
+
+
+
+      },
+    error => {
+      console.log(error);
+
+      this.loginError = true;
+      this.loginErrorText = error.json();
+    }
+    );
+/*
+  /!*  var credentials = {
+   email: $scope.email,
+   password: $scope.password
+   }*!/
+
+  $auth.login(credentials).then(function() {
+    return $http.get('api/authenticate/user');
+
+  }, function(error) {
+    $scope.loginError = true;
+    $scope.loginErrorText = error.data.error;
+
+  }).then(function(response) {
+    if(response !=undefined || response !=''){
+      var username=response.data.user.name;
+      $scope.userName=username;
+      var user = JSON.stringify(response.data.user);
+      var user1=response.data.user;
+      var roleId = user1.role_id;
+
+      if(roleId==1){
+        localStorage.setItem('user', user);
+        $rootScope.authenticated = true;
+        $rootScope.currentUser = response.data.user;
+        $scope.loginError = false;
+        $scope.loginErrorText = '';
+
+        var lastUrl=localStorage.getItem('lasturl');
+        if(lastUrl!=''){
+          window.location.href=lastUrl;
+          localStorage.setItem('lasturl','');
+        }else{
+          window.location.reload();
+        }
+        return;
+      }
+    }
+  });*/
+}
+  register(form:NgForm) {
+      console.log(form);
 
     this.authService.register(this.newUser).subscribe(data =>
       {
@@ -202,23 +247,24 @@ constructor (private localStorage:LocalStorageService,private authService:Authen
          $scope.password=$scope.newUser.password;
          $scope.name=$scope.newUser.name;
          $scope.login();*/
+        this.email=this.newUser.email;
+        this.password=this.newUser.password;
+        this.loginFromRegister();
 
       },
         error => {
 
-        /*  this.loginError = true;
-          this.registerErrorText = data.message;*/
+          this.loginError = true;
+          this.registerErrorText = error.json();
         }
     );
 
 };
-
   showLoginModal(content){
     if(this.currentActiveModal)
     {this.currentActiveModal.dismiss()}
    this.currentActiveModal= this.modalService.open(content);
   }
-
   showSingupModal(content){
     if(this.currentActiveModal)
     {this.currentActiveModal.dismiss()}

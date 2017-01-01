@@ -17,7 +17,7 @@
         <h1 class="text-center">Login</h1>
         <p class="lead text-center">We missed you</p>
 
-        <form  (submit)="login()">
+        <form  (ngSubmit)="login(frm) " #frm="ngForm">
           <div class="error-msg text-center" *ngIf="loginError">
             {{loginErrorText}}
             <div class="xl-space"></div>
@@ -27,21 +27,23 @@
 
               <div class="pos-rel login-field">
                 <label>Email</label>
-                <input type="email" placeholder="E-mail"  [(ngModel)]="email" name="email" required/>
-                <div class="error-msg" ng-show="login_form.email.$touched || login_form.email.$submitted">
-                  <span class="error" ng-show="login_form.email.$error.required">Email is required.</span>
-                  <span class="error" ng-show="login_form.email.$error.email">This is not a valid email.</span>
-                </div>
+                <input type="email" placeholder="E-mail"   name="email"  ngModel required/>
+               <!-- <div class="error-msg" *ngIf="frm.controls['email'].touched">
+                  <span class="error" *
+
+               If="frm.value['email']==''">Email is required.</span>
+                  <span class="error" *ngIf="!frm.controls['email'].valid">This is not a valid email.</span>
+                </div>-->
               </div>
 
               <div class="space"></div>
 
               <div class="pos-rel login-field">
                 <label>Password</label>
-                <input type="password" placeholder="Password"  [(ngModel)]="password" name="password" required/>
-                <div class="error-msg" ng-show="login_form.password.$touched || login_form.password.$submitted">
+                <input type="password" placeholder="Password"   name="password"  ngModel required/>
+                <!--<div class="error-msg" ng-show="login_form.password.$touched || login_form.password.$submitted">
                   <span class="error" ng-show="login_form.password.$error.required">Password is required.</span>
-                </div>
+                </div>-->
               </div>
               <div class="space"></div>
 
@@ -76,7 +78,7 @@
         <h1 class="text-center opac-xxl">Join us</h1>
         <p class="lead text-center opac-xxl">You know you want to</p>
 
-        <form>
+        <form (ngSubmit)="register(frmSingup)" #frmSingup="ngForm" >
           <div class="row">
             <div class="small-11 medium-9 small-centered column">
               <div class="error-msg text-center" >
@@ -85,24 +87,24 @@
               </div>
               <div class="pos-rel login-field">
                 <label>Name</label>
-                <input type="text" placeholder="Name" class="pos-rel e2"  [(ngModel)]="newUser.name" required [ngModelOptions]="{standalone: true}"/>
+                <input type="text" placeholder="Name" name="name" class="pos-rel e2"  ngModel required/>
               </div>
 
               <div class="space"></div>
               <div class="pos-rel login-field">
                 <label>Email</label>
-                <input type="email" placeholder="E-mail" class="pos-rel e2"  [(ngModel)]="newUser.name" required [ngModelOptions]="{standalone: true}"/>
+                <input type="email" placeholder="E-mail" class="pos-rel e2" name="email"  ngModel required/>
               </div>
 
               <div class="space"></div>
 
               <div class="pos-rel login-field">
                 <label>Password</label>
-                <input type="password" placeholder="Password" class="pos-rel e2"  [(ngModel)]="newUser.name" required [ngModelOptions]="{standalone: true}"/>
+                <input type="password" placeholder="Password" class="pos-rel e2"  name="email"  ngModel required/>
               </div>
               <div class="space"></div>
               <div class="text-center">
-                <button class="button" (click)="register()">Register</button>
+                <button class="button" type="submit">Register</button>
                 <div class="space"></div>
                 Already have an account? <a (click)="showModal(loginmodalT)" id="loginLogin">Login</a>
               </div>
@@ -155,21 +157,16 @@
         <p class="lead text-center">Not to worry! We have your back</p>
         <p class="text-center">Submit your email and we'll send you a fresh pass</p>
 
-        <form  ng-submit="forgotPassword()" novalidate>
+        <form (ngSubmit)="forgotPassword(frmSingup)" #frmSingup="ngForm">
           <div class="row">
-            <div class="error-msg text-center font-white" ng-if="forgotMsg">
-<!--
+            <div class="error-msg text-center font-white" *ngIf="forgotMsg">
               {{forgotMsgText}}
--->
               <div class="xl-space"></div>
             </div>
             <div class="small-11 medium-9 small-centered column">
               <label>Email</label>
-              <input type="email" ng-required="true" name="forgotEmail" placeholder="Provide email to reset your password" class="pos-rel e2" ng-model="newUser.email" />
-              <div class="error-msg font-white" ng-show="forgot_pass_form.forgotEmail.$touched || forgot_pass_form.forgotEmail.$submitted">
-                <span class="error" ng-show="forgot_pass_form.forgotEmail.$error.required">This field is required.</span>
-                <span class="error" ng-show="forgot_pass_form.forgotEmail.$error.email">This is not a valid email.</span>
-              </div>
+              <input type="email" required name="forgotEmail" placeholder="Provide email to reset your password" class="pos-rel e2" ngModel />
+
               <div class="space"></div>
 
               <div class="text-center">
@@ -272,6 +269,7 @@
       </ul>
     </div>
     <div class="top-bar-right">
+
       <ul class="dropdown menu" data-dropdown-menu  *ngIf="showLogin">
         <li>
           <a   (click)="showSingupModal(signupmodalT)">Sign up</a>
