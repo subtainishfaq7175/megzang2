@@ -13,6 +13,7 @@ declare var $:any;
   selector: 'app-product',
   templateUrl: './product.component.html',
   styleUrls: ['./product.component.css']
+
 })
 export class ProductComponent implements OnInit, AfterViewInit {
    prodid=1;
@@ -72,7 +73,7 @@ export class ProductComponent implements OnInit, AfterViewInit {
   s6:boolean = true;
   setBraceValue:number=0.0;
   setSrcTagValue:string='images/test/prod.jpg';
-  options:Array<Option>;
+  options:Array<Option> =[];
   img_nameValue;
   Retailer_errorValue;
   autocomplete_erorValue;
@@ -490,7 +491,8 @@ important
    }
    keyupProductName(){
      var ProductName = this.product.ProductName;
-   /*  if(ProductName !=''){
+   /*  important
+   if(ProductName !=''){
        $('#SetProductEro').addClass('success');
        $('#SetProductEro').removeClass('error');
        $("#SetProductEroHtml").html('<i class="material-icons md-24 align-vmid">check</i><i class="material-icons md-24 align-vmid">close</i>');
@@ -500,68 +502,51 @@ important
        $("#SetProductEroHtml").html('<i class="material-icons md-24 align-vmid">close</i>');
      }*/
    }
-
-
-
-
-
-
-
-  $('#Productprice').on('keyup',function(){
-  var Productprice = $('#Productprice').val();
-  if($.trim(Productprice)==''){
-    $('#SetPriceClass').removeClass('success');
-    $('#SetPriceClass').addClass('error');
-    $("#SetPriceClassHtml").html('<i class="material-icons md-24 align-vmid">close</i>');
-    $("#SetPriceClassEro").html('required');
-  }else if($.isNumeric(Productprice)==true){
-    if(Productprice <= 500){
-      $('#SetPriceClass').addClass('success');
-      $('#SetPriceClass').removeClass('error');
-      $("#SetPriceClassHtml").html('<i class="material-icons md-24 align-vmid">check</i><i class="material-icons md-24 align-vmid">close</i>');
-      $("#SetPriceClassEro").html('');
-    }else{
+   keyupProductprice(){
+    var Productprice = this.product.Productprice;
+ /*
+   important
+   if(Productprice==''){
       $('#SetPriceClass').removeClass('success');
       $('#SetPriceClass').addClass('error');
       $("#SetPriceClassHtml").html('<i class="material-icons md-24 align-vmid">close</i>');
-      $("#SetPriceClassEro").html('Should be maximum 500$');
+      $("#SetPriceClassEro").html('required');
+    }else if($.isNumeric(Productprice)==true){
+      if(Productprice <= 500){
+        $('#SetPriceClass').addClass('success');
+        $('#SetPriceClass').removeClass('error');
+        $("#SetPriceClassHtml").html('<i class="material-icons md-24 align-vmid">check</i><i class="material-icons md-24 align-vmid">close</i>');
+        $("#SetPriceClassEro").html('');
+      }else{
+        $('#SetPriceClass').removeClass('success');
+        $('#SetPriceClass').addClass('error');
+        $("#SetPriceClassHtml").html('<i class="material-icons md-24 align-vmid">close</i>');
+        $("#SetPriceClassEro").html('Should be maximum 500$');
+      }
+    }*/
+
+    if(Productprice){
+      var braseVal= (parseInt(Productprice) / 5).toFixed(2) ;
+    }else{
+      var braseVal='';
     }
-  }else{
-    $('#SetPriceClass').removeClass('success');
-    $('#SetPriceClass').addClass('error');
-    $("#SetPriceClassHtml").html('<i class="material-icons md-24 align-vmid">close</i>');
-    $("#SetPriceClassEro").html('Enter The Number');
-  }
-  if(Productprice){
-    var braseVal=Productprice / 5 ;
-  }else{
-    var braseVal='';
-  }
-  if(braseVal !=''){
-    $('#setBrace').html(braseVal.toFixed(2) +'  bars');
-  }else{
-    $('#setBrace').html('0.0 bars');
-  }
-});
-  $( "#addOptionProduct" ).click(function() {
-  $('#addOption').append('<div id="add_cls_'+prodid+'" data_id="'+prodid+'"><div class="small-6 column">'+
-    '<label>Option name</label>'+
-    '<input type="text" placeholder="eg: Size, Color, ..." name="optionsName[]"/>'+
-    '</div>'+
-    '<div class="small-5 column">'+
-    '<label>Value</label>'+
-    '<input type="text"  name="optionsValues[]" />'+
-    '</div>'+
-    '<div class="small-1 column pos-rel">'+
-    '<div class="l-space"></div>'+
-    '<button class="addcloseButton" data_id="'+prodid+'"><i class="material-icons md-24">close</i></button>'+
-    '</div></div>');
-  prodid++;
-});
-  $('body').on("click",'.addcloseButton', function() {
-  var id=$(this).attr('data_id');
-  $('#add_cls_'+id).remove();
-});
+    if(braseVal != ''){
+      this.setBraceValue=parseInt(braseVal);
+    }else{
+      this.setBraceValue = 0.0;
+    }
+}
+   clickaddOptionProduct()
+   {
+     this.options.push(new Option());
+   }
+
+
+
+
+
+
+
 
 
 }

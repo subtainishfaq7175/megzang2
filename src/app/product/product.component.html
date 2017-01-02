@@ -22,7 +22,7 @@
 
           <div class="small-11 small-centered column">
 
-            <input type="radio" id="onlineStore" *ngIf="onlineStore" [(ngModel)]="storeActive.store" [value]="1" name="store" [ngModelOptions]="{standalone: true}" (click)="clickOnlineStore()"/>
+            <input type="radio" id="onlineStore" *ngIf="onlineStore" [(ngModel)]="storeActive.store" value="1" name="store" [ngModelOptions]="{standalone: true}" (click)="clickOnlineStore()"/>
             <label for="onlineStore">Online Store</label>
 
             <div class="store-details" id="onlineStoreDetails" *ngIf="onlineStoreDetails" style="display:none;">
@@ -44,7 +44,7 @@
 
             <div class="space"></div>
 
-            <input type="radio" id="offlineStore" *ngIf="offlineStore" [(ngModel)]="storeActive.store" [value]="2" name="store"  [ngModelOptions]="{standalone: true}" (click)="clickOfflineStrore()"/>
+            <input type="radio" id="offlineStore" *ngIf="offlineStore" [(ngModel)]="storeActive.store" value="2" name="store"  [ngModelOptions]="{standalone: true}" (click)="clickOfflineStrore()"/>
             <label for="offlineStore">Offline Store</label>
 
             <div class="store-details" id="offlineStoreDetails" *ngIf="offlineStoreDetails" style="display:none;">
@@ -148,7 +148,7 @@
 											<i class="material-icons md-24 align-vmid">check</i>
 											<i class="material-icons md-24 align-vmid">close</i>
 										</span>
-                  <input class="input-group-field text-right" id="Productprice" *ngIf="Productprice" [(ngModel)]="product.Productprice" type="text"  [ngModelOptions]="{standalone: true}"/>
+                  <input class="input-group-field text-right" id="Productprice" *ngIf="Productprice" [(ngModel)]="product.Productprice" type="text"  [ngModelOptions]="{standalone: true}" (keyup)="keyupProductprice()"/>
                   <div class="input-group-button">
 
                   </div>
@@ -184,12 +184,12 @@
             <!-- http://foundation.zurb.com/sites/docs/toggler.html for more details -->
             <div id="addOption" *ngIf="addOption" class="row mrg-b-m">
 
-              <app-option [optionsarray]="options"></app-option>
+              <custom-option [optionsArray]="options"></custom-option>
 
             </div>
 
             <!--<a data-toggle="addOption" class="button" id="addOptionProduct">-->
-            <a  class="button" id="addOptionProduct" click="" *ngIf="addOptionProduct">
+            <a  class="button" id="addOptionProduct" click="clickaddOptionProduct()" *ngIf="addOptionProduct">
               Add option
             </a>
             <!-- END product options -->
@@ -255,25 +255,25 @@
             <div class="radio-button-group">
               <div class="row small-up-1 medium-up-4 large-up-4 button-group toggle" data-toggle="buttons-radio">
                 <div class="column">
-                  <input type="radio" id="w1" *ngIf="w1" name="weight" [(ngModel)]="Package.weight" [value]="Under 2kg" data-toggle="button" [ngModelOptions]="{standalone: true}">
+                  <input type="radio" id="w1" *ngIf="w1" name="weight" [(ngModel)]="Package.weight" value="Under 2kg" data-toggle="button" [ngModelOptions]="{standalone: true}">
                   <label class="expanded button pos-rel" for="w1">
                     <span class="block">Under 2kg</span>
                   </label>
                 </div>
                 <div class="column">
-                  <input type="radio" id="w2" *ngIf="w2" name="weight" [(ngModel)]="Package.weight" [value]="2 - 5 kg" data-toggle="button" [ngModelOptions]="{standalone: true}">
+                  <input type="radio" id="w2" *ngIf="w2" name="weight" [(ngModel)]="Package.weight" value="2 - 5 kg" data-toggle="button" [ngModelOptions]="{standalone: true}">
                   <label  class="expanded button pos-rel" for="w2">
                     <span class="block">2 - 5 kg</span>
                   </label>
                 </div>
                 <div class="column">
-                  <input type="radio" id="w3" *ngIf="w3" name="weight" [(ngModel)]="Package.weight" [value]="5 - 10 kg" data-toggle="button" [ngModelOptions]="{standalone: true}">
+                  <input type="radio" id="w3" *ngIf="w3" name="weight" [(ngModel)]="Package.weight" value="5 - 10 kg" data-toggle="button" [ngModelOptions]="{standalone: true}">
                   <label  class="expanded button pos-rel" for="w3">
                     <span class="block">5 - 10 kg</span>
                   </label>
                 </div>
                 <div class="column">
-                  <input type="radio" id="w4" *ngIf="w4" name="weight" [(ngModel)]="Package.weight" [value]="More than 10kg" data-toggle="button" [ngModelOptions]="{standalone: true}">
+                  <input type="radio" id="w4" *ngIf="w4" name="weight" [(ngModel)]="Package.weight" value="More than 10kg" data-toggle="button" [ngModelOptions]="{standalone: true}">
                   <label  class="expanded button pos-rel" for="w4">
                     <span class="block">More than 10kg</span>
                   </label>
@@ -288,42 +288,42 @@
               <div class="radio-button-group">
                 <div class="row small-up-3 medium-up-4 large-up-6 button-group toggle" data-toggle="buttons-radio">
                   <div class="column">
-                    <input type="radio" id="s1" *ngIf="s1" name="size" [(ngModel)]="Package.size" [value]="Tiny" data-toggle="button" [ngModelOptions]="{standalone: true}">
+                    <input type="radio" id="s1" *ngIf="s1" name="size" [(ngModel)]="Package.size" value="Tiny" data-toggle="button" [ngModelOptions]="{standalone: true}">
                     <label class="expanded button pos-rel" for="s1">
                       <i class="material-icons line-med md-24 font-success">mail</i>
                       <span class="block">Tiny</span>
                     </label>
                   </div>
                   <div class="column">
-                    <input type="radio" id="s2" *ngIf="s2" name="size" [(ngModel)]="Package.size" [value]="Small" data-toggle="button" [ngModelOptions]="{standalone: true}">
+                    <input type="radio" id="s2" *ngIf="s2" name="size" [(ngModel)]="Package.size" value="Small" data-toggle="button" [ngModelOptions]="{standalone: true}">
                     <label  class="expanded button pos-rel" for="s2">
                       <i class="material-icons line-med md-24 font-success">shopping_basket</i>
                       <span class="block">Small</span>
                     </label>
                   </div>
                   <div class="column">
-                    <input type="radio" id="s3" *ngIf="s3" name="size" [(ngModel)]="Package.size" [value]="Medium" data-toggle="button" [ngModelOptions]="{standalone: true}">
+                    <input type="radio" id="s3" *ngIf="s3" name="size" [(ngModel)]="Package.size" value="Medium" data-toggle="button" [ngModelOptions]="{standalone: true}">
                     <label  class="expanded button pos-rel" for="s3">
                       <i class="material-icons line-med md-24 font-success">label</i>
                       <span class="block">Medium</span>
                     </label>
                   </div>
                   <div class="column">
-                    <input type="radio" id="s4" *ngIf="s4" name="size" [(ngModel)]="Package.size" [value]="Large" data-toggle="button" [ngModelOptions]="{standalone: true}">
+                    <input type="radio" id="s4" *ngIf="s4" name="size" [(ngModel)]="Package.size" value="Large" data-toggle="button" [ngModelOptions]="{standalone: true}">
                     <label  class="expanded button pos-rel" for="s4">
                       <i class="material-icons line-med md-24 font-success">work</i>
                       <span class="block">Large</span>
                     </label>
                   </div>
                   <div class="column">
-                    <input type="radio" id="s5" *ngIf="s5" name="size" [(ngModel)]="Package.size" [value]="XLarge" data-toggle="button" [ngModelOptions]="{standalone: true}">
+                    <input type="radio" id="s5" *ngIf="s5" name="size" [(ngModel)]="Package.size" value="XLarge" data-toggle="button" [ngModelOptions]="{standalone: true}">
                     <label  class="expanded button pos-rel" for="s5">
                       <i class="material-icons line-med md-24 font-success">label</i>
                       <span class="block">XLarge</span>
                     </label>
                   </div>
                   <div class="column">
-                    <input type="radio" id="s6" *ngIf="s6" name="size" [(ngModel)]="Package.size" [value]="Huge" data-toggle="button" [ngModelOptions]="{standalone: true}">
+                    <input type="radio" id="s6" *ngIf="s6" name="size" [(ngModel)]="Package.size" value="Huge" data-toggle="button" [ngModelOptions]="{standalone: true}">
                     <label  class="expanded button pos-rel" for="s6">
                       <i class="material-icons line-med md-24 font-success">label</i>
                       <span class="block">Huge</span>

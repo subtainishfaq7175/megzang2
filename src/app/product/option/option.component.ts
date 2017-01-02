@@ -2,10 +2,8 @@ import {Component, OnInit, Input} from '@angular/core';
 import {Option} from "../../model/option";
 
 @Component({
-  selector: 'app-option',
-  templateUrl: './option.component.html',
-  styleUrls: ['./option.component.css']
-})
+  selector: 'custom-option',
+  templateUrl: './option.component.html'})
 export class OptionComponent implements OnInit {
   @Input() optionsArray:Array<Option>;
 
