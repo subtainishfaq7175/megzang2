@@ -24,6 +24,8 @@ important
   newUser:User;
   resetError:boolean=false;
   resetErrorText='';
+  resetMsgText='';
+  resetMsg:boolean=true;
 
   resetPassword = function () {
   /*$http.post('/api/resetpassword',$scope.newUser)
