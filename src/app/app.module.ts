@@ -13,6 +13,7 @@ import {Ng2Webstorage} from "ng2-webstorage";
 import {AuthenticationService} from "./services/authentication.service";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import { OptionComponent } from './product/option/option.component';
+import {ApiclientService} from "./services/apiclient.service";
 
 @NgModule({
   declarations: [
@@ -32,7 +33,7 @@ import { OptionComponent } from './product/option/option.component';
     NgbModule.forRoot()
 
   ],
-  providers: [AuthenticationService],
+  providers: [AuthenticationService,ApiclientService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

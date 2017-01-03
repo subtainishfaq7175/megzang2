@@ -16,7 +16,7 @@ export class DashboardComponent  {
 
   addProduct(){
     console.log(this.eleme);
-    this.localStorage.store('TextVal', this.eleme.value);
+    this.localStorage.store('TextVal', this.eleme.nativeElement.value);
     this.router.navigateByUrl('/product');
   }
 

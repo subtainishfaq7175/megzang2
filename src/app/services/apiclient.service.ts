@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import {Http} from "@angular/http";
+import {Http, Headers, RequestOptions, Response} from "@angular/http";
 import {LocalStorageService} from "ng2-webstorage";
 import {User} from "../model/user";
+import {API_URL} from "../app.config";
 
 @Injectable()
 export class ApiclientService {
@@ -17,8 +18,17 @@ export class ApiclientService {
     {
 
     }
-  getHtml(username: string, password: string)
+  getHtml(textValue:string)
     {
+      const body= JSON.stringify({url : textValue});
+      let headers = new Headers(
+        { 'Content-Type': 'application/json',
+          'Authorization': 'bearer '+this.localStorage.retrieve("satellizer_token"),
+          'X-Alt-Referer':textValue
+        });
+      let options = new RequestOptions({ headers: headers });
+      return this.http.post(API_URL+'api/Select/getHtml',body,options)
+        .map((data:Response)=>data.json());
 
     }
   }

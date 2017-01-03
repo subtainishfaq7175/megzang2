@@ -3,7 +3,11 @@ import {Option} from "../../model/option";
 
 @Component({
   selector: 'custom-option',
-  templateUrl: './option.component.html'})
+  templateUrl: './option.component.html',
+    styleUrls: ['./merx.css']
+  }
+
+  )
 export class OptionComponent implements OnInit {
   @Input() optionsArray:Array<Option>;
 

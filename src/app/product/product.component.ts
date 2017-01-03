@@ -5,6 +5,7 @@ import {Store} from "../model/store";
 import {StoreStatus} from "../model/storeStatus";
 import {API_URL} from "../app.config";
 import {Option} from "../model/option";
+import {ApiclientService} from "../services/apiclient.service";
 
 declare var $:any;
 
@@ -12,7 +13,8 @@ declare var $:any;
 @Component({
   selector: 'app-product',
   templateUrl: './product.component.html',
-  styleUrls: ['./product.component.css']
+  styleUrls: ['./merx.css']
+
 
 })
 export class ProductComponent implements OnInit, AfterViewInit {
@@ -72,7 +74,7 @@ export class ProductComponent implements OnInit, AfterViewInit {
   s5:boolean = true;
   s6:boolean = true;
   setBraceValue:number=0.0;
-  setSrcTagValue:string='images/test/prod.jpg';
+  setSrcTagValue:string='';
   options:Array<Option> =[];
   img_nameValue;
   Retailer_errorValue;
@@ -87,56 +89,57 @@ export class ProductComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
 
-    this.Productdetails=false;
-    this.Packageinfo=false;
-    this.buttonSvae=false;
-    this.hideproductDetails();
-    this.loading=false;
-    if(this.localStorage.retrieve('ProductData')  || this.localStorage.retrieve('ProductData')==''){
-      var TextVal=this.localStorage.retrieve("TextVal");
-      var regexp = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/
-      if(regexp.test(TextVal)==true){
-        var Postdata={url:TextVal};
-       this.loading=false;
-       /*
-       important
-       $.ajax({
-          type:'post',
-          url: '/api/Select/getHtml',
-          dataType: 'json',
-          data:{url:TextVal},
-          beforeSend: function(xhr){
-            xhr.setRequestHeader('Authorization', 'bearer '+localStorage.satellizer_token);
-            xhr.setRequestHeader('X-Alt-Referer',TextVal);
-          },
-          success: function(data){
-            GetSetDataForurl(data.data,TextVal);
-          }
-        });
-       */ /* $http.post('/api/Select/getHtml',Postdata).success(function(data){
-         GetSetDataForurl(data,TextVal);
-         }); */
-      }else if(TextVal !=''){
-        /*
-        important
-        setTimeout(function(){
-          $('#offlineStore').trigger('click');
-        },100);
-      }else{
-        $('#onlineStore').prop('checked',false);
-        $('#offlineStore').prop('checked',false);
-
-        */
-      }
-    }
-
 
 
   }
 
 
-  constructor(private localStorage:LocalStorageService) {}
+  constructor(private localStorage:LocalStorageService , private apiRest : ApiclientService) {}
   ngOnInit() {
+
+    this.Productdetails=false;
+    this.Packageinfo=false;
+    this.buttonSvae=false;
+    this.offlineStoreDetails=false;
+    this.loading=false;
+    this.onlineStoreDetails=false;
+
+    //  if(this.localStorage.retrieve('ProductData')  || this.localStorage.retrieve('ProductData')==''){
+    var TextVal=this.localStorage.retrieve("TextVal");
+    var regexp = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/ ;
+    if(regexp.test(TextVal)==true){
+
+      this.loading=false;
+      this.storeActive.store="1";
+      this.onlineStoreDetails=true;
+      this.store.url=this.localStorage.retrieve("TextVal");
+      this.apiRest.getHtml(TextVal).subscribe(data=>
+        {
+          this.GetSetDataForurl(data,TextVal);
+
+        },
+        error =>
+        {
+          console.log(error.json());
+        }
+      );
+
+    }
+    else if(TextVal !=''){
+      console.log("its not url :" + TextVal);
+      this.storeActive.store="2";
+      this.clickOfflineStrore();
+
+    }else{
+      this.storeActive.store="";
+
+      console.log("its not url but empty");
+
+
+    }
+    //  }
+
+
   }
 
 
@@ -277,25 +280,62 @@ export class ProductComponent implements OnInit, AfterViewInit {
    this.product.ProductName="";
    this.setBraceValue=0.0;
    this.setSrcTag=false;
-/*
-important
-    var Productname=$(data).filter('title').text();
-    */
-     var Productname='';
+//important
+    var  parser=new DOMParser();
+    var  htmlDoc=parser.parseFromString(data, "text/xml");
+    var  Productname=htmlDoc.getElementsByTagName("title").item(0).text;//.text();
     var arr=['Amazon.in','Amazon.com','eBay','flipkart.com','snapdeal',':','|'];
     var FullName=Productname;
-    if(Productname){
-      for(var i=0;i<arr.length;i++){
-        FullName=FullName.replace(arr[i],'');
-      }
+      if(Productname){
+          for(var i=0;i<arr.length;i++){
+          FullName=FullName.replace(arr[i],'');
+        }
+
       if(FullName){
+
         this.product.ProductName=FullName;
-       this.loading=false;
+        this.loading=false;
         this.Showonlinedata(Prdoucturl);
         this.ShowproductDetails();
         var CleanPricearr=['Rs.','US','$'];
-        var ProductPrice=this.product.Productprice;
 
+
+        var Pricarr=['prcIsum','priceblock_ourprice'];
+        for(var i=0;i <= Pricarr.length;i++){
+          if(Pricarr[i]){
+            if(htmlDoc.getElementById(Pricarr[i]).innerText){
+              var price=htmlDoc.getElementById(Pricarr[i]).innerText;
+              break;
+            }
+          }
+        }
+        // End Price
+
+        //Img Tag Find
+        var Imgarr=['landingImage','icImg'];
+        for(var i=0;i <= Imgarr.length;i++){
+          if(Imgarr[i]){
+            if(htmlDoc.getElementById(Imgarr[i]).getAttribute('src')){
+              var img=htmlDoc.getElementById(Imgarr[i]).getAttribute('src');
+              break;
+            }
+          }
+        }
+        if(img){
+         // important $('#setSrcTag').css('display','block');
+          this.setSrcTagValue=img;
+        }
+        //End Img
+
+        // Clean Price
+        var CleanPricearr=['Rs.','US','$'];
+        var ProductPrice=price;
+        for(var i=0;i<CleanPricearr.length;i++){
+          ProductPrice=ProductPrice.replace(CleanPricearr[i],'');
+        }
+       // $('#Productprice').val($.trim(ProductPrice));
+        //end
+        this.product.Productprice=ProductPrice;
         //end
         if(ProductPrice){
           if(ProductPrice.indexOf(',') > 0){
@@ -323,15 +363,10 @@ important
 
 }
    Showonlinedata(valurl){
- /*
-  important
-  $('#offlineStore').attr('checked',false);
-  $('#onlineStore').attr('checked',true);*/
+
  this.onlineStoreDetails=true;
  this.offlineStoreDetails=false;
-/*
-  $('#onlineStore').prop('checked',true);
-*/
+ this.storeActive.store="1";
      this.store.url=valurl;
 }
    resetform(){
@@ -377,12 +412,16 @@ important
      this.Productdetails=false;
      this.Packageinfo=false;
      this.buttonSvae=false;
+     this.offlineStoreDetails=false;
 
-}
+
+
+   }
    ShowproductDetails(){
      this.Productdetails=true;
      this.Packageinfo=true;
      this.buttonSvae=true;
+     this.SetOnlineLink=true;
 }
    productResrt(){
      this.Package={};
@@ -411,66 +450,54 @@ important
 }
    goOnline() {
     var regexp = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/
-    var Prdoucturl=$('#SetOnlineLink').val();
-    this.loading=true;
-    this.hideproductDetails();
-    this.productResrt();
+    var Prdoucturl=this.store.url;
+    this.onlineStoreDetails=true;
+   // this.productResrt();
     if(regexp.test(Prdoucturl)==true){
-      //ShowproductDetails();
+    //  this.ShowproductDetails();
     }else{
       $('.loading').hide();
       //hideproductDetails();
     }
-    /*
-     important
-     var Postdata={url:Prdoucturl};
-     $.ajax({
-     type:'post',
-     url: '/api/Select/getHtml',
-     dataType: 'json',
-     data:{url:Prdoucturl},
-     beforeSend: function(xhr){
-     xhr.setRequestHeader('Authorization', 'bearer '+localStorage.satellizer_token);
-     xhr.setRequestHeader('X-Alt-Referer',Prdoucturl);
-     },
-     success: function(data){
-     GetSetDataForurl(data.data,Prdoucturl);
-     }
-     });*/
-    /* $http.post('/api/Select/getHtml',Postdata).success(function(data){
-     GetSetDataForurl(data,Prdoucturl);
-     }); */
+
+
+
+     this.apiRest.getHtml(Prdoucturl).subscribe(data=>
+       {
+         this.GetSetDataForurl(data,Prdoucturl);
+
+       },
+       error =>
+       {
+         console.log(error.json());
+       }
+     );
+
   }
    clickOfflineStrore() {
-    this.resetform();
- /*
- important
-    $('#onlineStore').attr('checked',false);
-    $('#offlineStore').attr('checked',true);*/
 
+
+     this.storeActive.store="2";
     this.offlineStoreDetails=true;
     this.onlineStoreDetails=false;
-    this.resetform();
-    /*important*/
+     this.Productdetails=false;
+     this.Packageinfo=false;
+     this.buttonSvae=false;
+
     if(this.storeActive.store=="2"){
-      this.hideproductDetails();
       this.store.url="";
     }
   }
    clickOnlineStore() {
-    this.resetform();
-    /*
-     important
-     $('#offlineStore').attr('checked',false);
-     $('#onlineStore').attr('checked',true);
-     */
+
     this.onlineStoreDetails=true;
-    this.onlineStoreDetails=false;
-    this.resetform();
+    this.SetOnlineLink=true;
+     this.storeActive.store="1";
     if(this.storeActive.store=="1"){
-      if(this.store.url==''){
-        this.hideproductDetails();
-      }
+      this.Productdetails=false;
+      this.Packageinfo=false;
+      this.buttonSvae=false;
+      this.offlineStoreDetails=false;
     }
   }
    keyupRetailsName(){

@@ -4,6 +4,8 @@ import {User} from "../model/user";
 @Component({
   selector: 'app-reset-password',
   templateUrl: './reset-password.component.html',
+  styleUrls: ['./merx.css']
+
 
 })
 export class ResetPasswordComponent implements OnInit {
