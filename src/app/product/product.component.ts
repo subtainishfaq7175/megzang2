@@ -147,99 +147,16 @@ export class ProductComponent implements OnInit, AfterViewInit {
 
 
   saveProduct = function () {
+    this.apiRest.saveProduct(this.product).subscribe(data=>
+      {
 
-    var userData=this.localStorage.retrieve('user');
+      },
+      error =>
+      {
+        console.log(error.json());
+      }
+    );
 
-    var SetOnlineLink=$('#SetOnlineLink').val();
-    var RetailsName=$('#RetailsName').val();
-    var autocomplete=$('#autocomplete').val();
-    var route=$('#route').val();
-    var street_number=$('#street_number').val();
-    var locality=$('#locality').val();
-    var administrative_area_level_1=$('#administrative_area_level_1').val();
-    var country=$('#country').val();
-    var ProductName=$('#ProductName').val();
-    var Productprice=$('#Productprice').val();
-    var imgurl=$('#setSrcTag').attr('src');
-    var ImgData=$('#img_name').text();
-    var OpionName = $("input[name='optionsName\\[\\]']")
-      .map(function(){return $(this).val();}).get();
-    var Optionvalues = $("input[name='optionsValues\\[\\]']")
-      .map(function(){return $(this).val();}).get();
-    var ObjecDat={'ProductName':ProductName,
-      'Productprice':Productprice,
-      'RetailsName':RetailsName,
-      'address':autocomplete,
-      'StreetName':route,
-      'City':locality,
-      'State':administrative_area_level_1,
-      'Country':country,
-      'StreetNumber':street_number,
-      'url':SetOnlineLink,
-      'imgUrl':imgurl,
-      'Img':ImgData,
-      'OptionName':JSON.stringify(OpionName),
-      'accessToken':'WebApp'};
-
-    $("#Wisherror").html('');
-    if(ObjecDat.url==''){
-      var SetvalEro='';
-      $.each(ObjecDat,function(key,val){
-        if(key=='ProductName' || key=='address' || key=='RetailsName' || key=='Productprice'){
-          if(val==''){
-            SetvalEro +=''+key+',';
-          }
-        }
-      });
-    }else{
-      var SetvalEro='';
-      $.each(ObjecDat,function(key,val){
-        if(key=='ProductName' || key=='Productprice'){
-          if(val==''){
-            SetvalEro +=''+key+',';
-          }
-        }
-      });
-    }
-    if($.trim(SetvalEro)!=''){
-      var wish=SetvalEro.slice(0,-2);
-      $('#Wisherror').html(wish);
-      $('#Werror').trigger('click');
-      return;
-    }
-
-
-    if(this.localStorage.retrieve('satellizer_token') && userData){
-      var UserDataObj=JSON.parse(userData);
-      var userid={'book_by':UserDataObj.id};
-      var productdata=$.extend(userid,ObjecDat,this.Package);
-      /*$http.post('/api/Select/SaveProduct',productdata).success(function(data){
-        if(data.status=='success'){
-          setTimeout(function(){
-            $('#SetMsg').html('Your Product is Successfully created...!')
-            $('#successTogalmsg').trigger('click');
-            resetform();
-            hideproductDetails();
-            setTimeout(function(){
-              $('#closeMesg').trigger('click');
-              localStorage.setItem("TextVal",'');
-            },3000);
-
-          },200);
-          $('#SetOnlineLink').val('');
-        }
-
-      })
-        .error(function(data){
-          $scope.loginError = true;
-          $scope.registerErrorText = data.error;
-        });*/
-    }else{
-     /* var productdata=$.extend(ObjecDat,$scope.Package);
-      localStorage.setItem('lasturl',location.href);
-      localStorage.setItem('ProductData',JSON.stringify(productdata));
-      $('#LoginPoupOpen').trigger('click');
-   */ }
   };
 
    saveLocalstoreProduct(){
